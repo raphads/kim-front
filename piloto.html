@@ -1,7 +1,14 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
+    <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ 
+  <link rel="stylesheet" href="style.css">
+  <script type="text/javascript" src="jquery-3.5.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.7/jquery.inputmask.min.js"></script>
+    <script src="kim.js" defer></script>
   <title>Gestão de Pilotos</title>
   <style>
     body { font-family: Arial, sans-serif; margin: 20px; background: #f4f4f9; }
@@ -20,8 +27,8 @@
     <input type="text" id="nome" placeholder="Nome Completo" required>
     <input type="date" id="dataNasc" required>
     <input type="text" id="equipe" placeholder="Equipe">
-    <input type="number" id="idade" placeholder="Idade">
-    <input type="number" id="numero" placeholder="Número do Kart">
+    <input type="number" id="idade" placeholder="Idade" min="10">
+    <input type="number" id="numero" placeholder="Número do Kart" min="0">
     <button type="submit">Salvar Piloto</button>
   </form>
 

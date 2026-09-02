@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kartódromo - Definir Pódio do Campeonato</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background-color: #f8f9fa; }
+        .card-custom { max-width: 700px; margin: 40px auto; border-radius: 12px; }
+        .podium-1 { border-left: 5px solid #ffc107; } /* Ouro */
+        .podium-2 { border-left: 5px solid #6c757d; } /* Prata */
+        .podium-3 { border-left: 5px solid #cd7f32; } /* Bronzear */
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="card card-custom shadow-sm p-4">
+        <h3 class="mb-4 text-center">🏁 Finalizar Campeonato & Pódio</h3>
+
+        <form id="podiumForm">
+            <!-- Seleção do Campeonato Ativo -->
+            <div class="mb-3">
+                <label for="selectCampeonato" class="form-label fw-bold">Selecione o Campeonato Saved:</label>
+                <select id="selectCampeonato" class="form-select" required>
+                    <option value="">Carregando campeonatos...</option>
+                </select>
+            </div>
+
+            <hr class="my-4">
+
+            <h5 class="mb-3">🏆 Definir Pódio</h5>
+
+            <!-- 1º Lugar -->
+            <div class="mb-3 p-2 bg-light podium-1 rounded">
+                <label for="selectPrimeiro" class="form-label fw-bold">🥇 1º Lugar</label>
+                <select id="selectPrimeiro" class="form-select piloto-select" required>
+                    <option value="">Selecione o Piloto...</option>
+                </select>
+            </div>
+
+            <!-- 2º Lugar -->
+            <div class="mb-3 p-2 bg-light podium-2 rounded">
+                <label for="selectSegundo" class="form-label fw-bold">🥈 2º Lugar</label>
+                <select id="selectSegundo" class="form-select piloto-select" required>
+                    <option value="">Selecione o Piloto...</option>
+                </select>
+            </div>
+
+            <!-- 3º Lugar -->
+            <div class="mb-3 p-2 bg-light podium-3 rounded">
+                <label for="selectTerceiro" class="form-label fw-bold">🥉 3º Lugar</label>
+                <select id="selectTerceiro" class="form-select piloto-select" required>
+                    <option value="">Selecione o Piloto...</option>
+                </select>
+            </div>
+
+            <div class="d-grid gap-2 mt-4">
+                <button type="submit" class="btn btn-success btn-lg">Salvar Histórico & Finalizar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+  const API_URL = 'http://localhost:3000/api';
+  let pilotosData = [];
+
+  // Carrega Campeonatos e Pilotos ao iniciar a página
+  document.addEventListener('DOMContentLoaded', () => {
+      carregarCampeonatos();
+      carregarPilotos();
+  });
+
+  async function carregarCampeonatos() {
+      try {
+          const res = await fetch(`${API_URL}/campeonatos`);
+          const campeonatos = await res.json();
+          
+          const select = document.getElementById('selectCampeonato');
+          select.innerHTML = '<option value="">-- Escolha um campeonato --</option>';
+
+          campeonatos.forEach(c => {
+              const opt = document.createElement('option');
+              opt.value = c.nome_pista || c.id;
+              opt.dataset.voltas = c.numero_voltas || 0;
+              opt.textContent = `${c.nome_pista} (${c.numero_voltas || 0} voltas)`;
+              select.appendChild(opt);
+          });
+      } catch (err) {
+          alert('Erro ao carregar campeonatos da API.');
+      }
+  }
+
+  async function carregarPilotos() {
+      try {
+          const res = await fetch(`${API_URL}/pilotos`);
+          pilotosData = await res.json();
+
+          const selects = document.querySelectorAll('.piloto-select');
+          
+          selects.forEach(select => {
+              select.innerHTML = '<option value="">-- Escolha o piloto --</option>';
+              pilotosData.forEach(p => {
+                  const opt = document.createElement('option');
+                  opt.value = p.nome_piloto;
+                  opt.dataset.foto = p.foto_piloto || '';
+                  opt.textContent = p.nome_piloto;
+                  select.appendChild(opt);
+              });
+          });
+      } catch (err) {
+          alert('Erro ao carregar pilotos da API.');
+      }
+  }
+
+  // Envio do formulário (Salvar histórico e remover das pistas ativas)
+  document.getElementById('podiumForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const selectCamp = document.getElementById('selectCampeonato');
+      const nomeCampeonato = selectCamp.value;
+      const voltas = selectCamp.options[selectCamp.selectedIndex].dataset.voltas;
+
+      const p1Select = document.getElementById('selectPrimeiro');
+      const p2Select = document.getElementById('selectSegundo');
+      const p3Select = document.getElementById('selectTerceiro');
+
+      // Validação para não repetir piloto no pódio
+      if (p1Select.value === p2Select.value || p1Select.value === p3Select.value || p2Select.value === p3Select.value) {
+          alert('Atenção: Selecione pilotos diferentes para cada posição do pódio!');
+          return;
+      }
+
+      const payload = {
+          nome_campeonato: nomeCampeonato,
+          numero_voltas: voltas,
+          nome_primeiro: p1Select.value,
+          foto_primeiro: p1Select.options[p1Select.selectedIndex].dataset.foto,
+          nome_segundo: p2Select.value,
+          foto_segundo: p2Select.options[p2Select.selectedIndex].dataset.foto,
+          nome_terceiro: p3Select.value,
+          foto_terceiro: p3Select.options[p3Select.selectedIndex].dataset.foto
+      };
+
+      try {
+          // 1. Salva no histórico da API
+          const responseHist = await fetch(`${API_URL}/historico`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(payload)
+          });
+
+          if (responseHist.ok) {
+              // 2. Remove o campeonato da lista de ativos
+              await fetch(`${API_URL}/pistas/${encodeURIComponent(nomeCampeonato)}`, {
+                  method: 'DELETE'
+              });
+
+              alert('Pódio gravado e campeonato finalizado com sucesso!');
+              location.reload();
+          } else {
+              alert('Erro ao gravar o pódio no histórico.');
+          }
+      } catch (err) {
+          console.error(err);
+          alert('Falha ao conectar com o servidor.');
+      }
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
