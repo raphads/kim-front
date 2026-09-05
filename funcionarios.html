@@ -9,7 +9,7 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
   <link rel="stylesheet" href="style.css">
-    <script src="kim.js" defer></script>
+  <script src="kim.js" defer></script>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.7/jquery.inputmask.min.js"></script>
@@ -46,30 +46,21 @@
             <label for="nome">Nome Completo</label>
             <input type="text" id="nome" placeholder="Nome do funcionário" required>
 
-               <label for="cargo">Cargo / Função</label>
-<select id="cargo" name="cargo" class="form-select mb-3" required>
-  <option value="" disabled selected>Selecione o cargo...</option>
-                <option value="Mecânico">Mecânico</option>
-                <option value="Atendente">Atendente</option>
-                <option value="Socorrista">Socorrista</option>
-                <option value="Fiscal de Pista">Fiscal de Pista</option>
-                <option value="Cronometrista">Cronometrista</option>
-                <option value="Gerente">Gerente</option>
-                <option value="Faxineiro">Faxineiro</option>
-                </select>
-            <div class="row">
-             <!-- <div class="col-6">
-                <label for="turno">Turno</label>
-                <select id="turno" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ccc; margin-bottom: 15px;">
-                  <option value="Manhã">Manhã</option>
-                  <option value="Tarde">Tarde</option>
-                  <option value="Noite">Noite</option>
-                </select>
-              </div>-->
-              <div class="col-6">
-                <label for="salario">Salário (R$)</label>
-                <input type="number" id="salario" step="0.01" placeholder="0.00">
-              </div>
+            <label for="cargo">Cargo / Função</label>
+            <select id="cargo" name="cargo" class="form-select mb-3" required>
+              <option value="" disabled selected>Selecione o cargo...</option>
+              <option value="Mecânico">Mecânico</option>
+              <option value="Atendente">Atendente</option>
+              <option value="Socorrista">Socorrista</option>
+              <option value="Fiscal de Pista">Fiscal de Pista</option>
+              <option value="Cronometrista">Cronometrista</option>
+              <option value="Gerente">Gerente</option>
+              <option value="Faxineiro">Faxineiro</option>
+            </select>
+
+            <div class="mb-3">
+              <label for="salario">Salário (R$)</label>
+              <input type="number" id="salario" step="0.01" min="0" placeholder="0.00" required>
             </div>
 
             <button type="submit" class="btn-salvar w-100 mt-2">
@@ -92,13 +83,12 @@
                   <th>CPF</th>
                   <th>Nome</th>
                   <th>Cargo</th>
-                  <!-- <th>Turno</th>-->
                   <th>Salário</th>
                   <th>Ações</th>
                 </tr>
               </thead>
               <tbody id="tabelaFuncionarios">
-                </tbody>
+              </tbody>
             </table>
           </div>
         </div>
@@ -110,15 +100,17 @@
   <script>
     const API_URL = 'http://localhost:3000/api/funcionarios';
 
-    // 1. Listar Funcionários (GET)   <td>${f.turno || '-'}</td>
+    // 1. Listar Funcionários (GET)
     async function carregarFuncionarios() {
+      const tbody = document.getElementById('tabelaFuncionarios');
+      
       try {
         const res = await fetch(API_URL);
         const funcionarios = await res.json();
         
-        const tbody = document.getElementById('tabelaFuncionarios');
-        if (!funcionarios || funcionarios.length === 0) {
-          tbody.innerHTML = '<tr><td colspan="6" class="text-center text-muted py-3">Nenhum funcionário cadastrado.</td></tr>';
+        // Proteção para evitar falha no layout caso o servidor responda um erro em formato de objeto
+        if (!Array.isArray(funcionarios) || funcionarios.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="5" class="text-center text-muted py-3">Nenhum funcionário cadastrado.</td></tr>';
           return;
         }
 
@@ -126,8 +118,7 @@
           <tr>
             <td><strong>${f.cpf}</strong></td>
             <td>${f.nome}</td>
-            <td><span class="badge bg-primary fs-6">${f.cargo}</span></td>
-          
+            <td><span class="badge bg-primary fs-6">${f.cargo || '-'}</span></td>
             <td>R$ ${Number(f.salario || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</td>
             <td>
               <button class="btn-delete" onclick="deletarFuncionario('${f.cpf}')">
@@ -138,46 +129,73 @@
         `).join('');
       } catch (err) {
         console.error('Erro ao carregar funcionários:', err);
+        tbody.innerHTML = '<tr><td colspan="5" class="text-center text-danger py-3">Erro ao conectar com o servidor.</td></tr>';
       }
     }
 
-// Salvar/Atualizar Funcionário (POST)
-document.getElementById('formFuncionario').addEventListener('submit', async (e) => {
-  e.preventDefault();
-  
-  const cargoSelecionado = document.getElementById('cargo').value;
+    // 2. Salvar Funcionário (POST)
+    document.getElementById('formFuncionario').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const cargoSelecionado = document.getElementById('cargo').value;
+      const salarioInput = document.getElementById('salario').value;
+      const salarioValor = parseFloat(salarioInput);
 
-  // Valida se o cargo foi selecionado no combobox
-  if (!cargoSelecionado) {
-    alert('Por favor, selecione um cargo válido.');
-    return;
-  }
+      if (!cargoSelecionado) {
+        alert('Por favor, selecione um cargo válido.');
+        return;
+      }
 
-  const funcionario = {
-    cpf: document.getElementById('cpf').value.trim(),
-    nome: document.getElementById('nome').value.trim(),
-    cargo: cargoSelecionado,
-    salario: Number(document.getElementById('salario').value) || 0
-  };
+      // Validação estrita para proibir valores negativos
+      if (isNaN(salarioValor) || salarioValor < 0) {
+        alert('O salário informado não pode ser negativo.');
+        return;
+      }
 
-  try {
-    const response = await fetch(API_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(funcionario)
+      const funcionario = {
+        cpf: document.getElementById('cpf').value.trim(),
+        nome: document.getElementById('nome').value.trim(),
+        cargo: cargoSelecionado,
+        salario: salarioValor
+      };
+
+      try {
+        const response = await fetch(API_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(funcionario)
+        });
+
+        if (response.ok) {
+          e.target.reset();
+          carregarFuncionarios();
+        } else {
+          const erro = await response.json();
+          alert(`Erro ao salvar: ${erro.message || 'Verifique os dados informados.'}`);
+        }
+      } catch (err) {
+        alert('Erro de conexão com o servidor.');
+      }
     });
 
-    if (response.ok) {
-      e.target.reset();
-      carregarFuncionarios();
-    } else {
-      const erro = await response.json();
-      alert(`Erro ao salvar: ${erro.message || 'Verifique os dados informados.'}`);
+    // 3. Excluir Funcionário (DELETE)
+    async function deletarFuncionario(cpf) {
+      if (confirm(`Deseja realmente excluir o funcionário com CPF ${cpf}?`)) {
+        try {
+          const response = await fetch(`${API_URL}/${cpf}`, { method: 'DELETE' });
+          if (response.ok) {
+            carregarFuncionarios();
+          } else {
+            alert('Não foi possível excluir o funcionário.');
+          }
+        } catch (err) {
+          alert('Erro ao conectar com o servidor ao tentar excluir.');
+        }
+      }
     }
-  } catch (err) {
-    alert('Erro de conexão com o servidor.');
-  }
-});
+
+    // Inicializa a tabela ao carregar a página
+    carregarFuncionarios();
   </script>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
