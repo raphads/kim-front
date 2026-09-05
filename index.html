@@ -3,91 +3,124 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kartódromo Internacional Mauá - A Emoção da Velocidade</title>
+    <title>Kartódromo Internacional de Mauá - Início</title>
+    <link rel="icon" href="LOGO1.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <style>
         :root {
-            --brand-red: #e84a27;
-            --brand-blue: #00a8ff;
-            --brand-green: #2ecc71;
-            --brand-yellow: #ffc107;
-            --dark-bg: #121212;
-            --card-bg: #1e1e1e;
+            --blue-main: #458FD5;
+            --navy-dark: #1e3a5f;
+            --orange-hover: #f97316;
+            --green-btn: #43ab3c;
+            --red-accent: #EA412C;
+            --card-bg: #ffffff;
+        }
+
+        html {
+            user-select: none;
         }
 
         body {
-            background-color: var(--dark-bg);
+            background-color: var(--blue-main);
             color: #ffffff;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            margin: 0;
         }
 
+        /* Navbar */
         .navbar {
-            background-color: rgba(0, 0, 0, 0.9) !important;
-            border-bottom: 2px solid var(--brand-red);
+            background-color: var(--navy-dark) !important;
+            border-bottom: 3px solid var(--orange-hover);
         }
 
+        .nav-link {
+            color: #ffffff !important;
+            font-weight: 500;
+        }
+
+        .nav-link:hover {
+            color: var(--orange-hover) !important;
+        }
+
+        /* Botões customizados padrão da sua identidade */
+        .btn-custom-main {
+            background-color: var(--navy-dark);
+            color: #ffffff;
+            border: 1px solid #ffffff;
+            border-radius: 1rem;
+            padding: 10px 24px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-custom-main:hover {
+            background-color: var(--orange-hover);
+            color: #ffffff;
+        }
+
+        .btn-custom-green {
+            background-color: var(--green-btn);
+            color: #ffffff;
+            border: 1px solid #ffffff;
+            border-radius: 1rem;
+            padding: 10px 24px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-custom-green:hover {
+            background-color: var(--orange-hover);
+            color: #ffffff;
+        }
+
+        /* Hero Section */
         .hero-section {
-            background: linear-gradient(rgba(0, 0, 0, 0.75), rgba(18, 18, 18, 1)), 
-                        url('https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?q=80&w=1920') center/cover no-repeat;
-            padding: 120px 0 80px 0;
+            padding: 60px 0;
         }
 
-        .btn-brand-red {
-            background-color: var(--brand-red);
-            color: white;
-            font-weight: bold;
-            border: none;
-            transition: all 0.3s ease;
-        }
-
-        .btn-brand-red:hover {
-            background-color: #c0392b;
-            color: white;
-            transform: translateY(-2px);
-        }
-
-        .btn-brand-yellow {
-            background-color: var(--brand-yellow);
-            color: #000;
-            font-weight: bold;
-            border: none;
-            transition: all 0.3s ease;
-        }
-
-        .btn-brand-yellow:hover {
-            background-color: #e0a800;
-            color: #000;
-            transform: translateY(-2px);
-        }
-
-        .card-feature {
+        /* Cards em container branco (como na sua tabela) */
+        .card-container {
             background-color: var(--card-bg);
-            border: 1px solid #333;
+            color: #333333;
             border-radius: 12px;
-            transition: transform 0.3s ease, border-color 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            padding: 30px;
+            height: 100%;
         }
 
-        .card-feature:hover {
-            transform: translateY(-5px);
-            border-color: var(--brand-blue);
+        .card-container h3, .card-container h4, .card-container h5 {
+            color: var(--navy-dark);
+            font-weight: 700;
         }
 
         .icon-box {
-            font-size: 2.5rem;
-            color: var(--brand-yellow);
+            font-size: 2.2rem;
+            color: var(--blue-main);
         }
 
+        /* Destaques / Estatísticas */
         .stat-box {
-            background-color: rgba(255, 255, 255, 0.05);
+            background-color: #f8f9fa;
+            border-left: 5px solid var(--green-btn);
+            padding: 15px;
             border-radius: 8px;
-            padding: 20px;
-            border-left: 4px solid var(--brand-green);
         }
 
+        /* Footer */
         footer {
-            background-color: #080808;
-            border-top: 1px solid #222;
+            background-color: var(--navy-dark);
+            color: #ffffff;
+            border-top: 3px solid var(--orange-hover);
+        }
+
+        footer a {
+            color: var(--red-accent);
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
@@ -97,20 +130,19 @@
     <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
         <div class="container">
             <a class="navbar-brand d-flex align-items-center" href="#">
-                <img src="LOGO1.png" alt="Kartódromo Internacional Mauá" height="60" class="me-2">
+                <img src="LOGO1.png" alt="Kartódromo Mauá" height="55" class="me-2">
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto align-items-center">
+                <ul class="navbar-nav ms-auto align-items-center gap-2">
                     <li class="nav-item"><a class="nav-link" href="#sobre">O Kartódromo</a></li>
                     <li class="nav-item"><a class="nav-link" href="#estrutura">Estrutura</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#karts">Frota & Pistas</a></li>
                     <li class="nav-item"><a class="nav-link" href="#contato">Contato</a></li>
-                    <li class="nav-item ms-lg-3 mt-2 mt-lg-0">
-                        <a class="btn btn-brand-yellow px-4 rounded-pill" href="login.html">
-                            <i class="bi bi-person-fill me-1"></i> Área do Cliente / Login
+                    <li class="nav-item ms-lg-2">
+                        <a href="login.html" class="btn btn-custom-green text-decoration-none">
+                            <i class="bi bi-box-arrow-in-right me-1"></i> Entrar / Login
                         </a>
                     </li>
                 </ul>
@@ -119,21 +151,21 @@
     </nav>
 
     <!-- HERO SECTION -->
-    <section class="hero-section text-center text-white">
+    <section class="hero-section text-center">
         <div class="container">
-            <div class="row justify-content-center">
+            <div class="row justify-content-center align-items-center">
                 <div class="col-lg-10">
-                    <span class="badge bg-danger text-uppercase px-3 py-2 mb-3">A melhor pista do ABC</span>
-                    <h1 class="display-3 fw-bold mb-3">KARTÓDROMO INTERNACIONAL MAUÁ</h1>
-                    <p class="lead mb-4 text-light">
-                        Viva a verdadeira experiência do automobilismo. Traçados técnicos, karts modernos de alta performance, cronometragem profissional e infraestrutura completa para você, seus amigos ou evento corporativo.
+                    <img src="LOGO1.png" alt="Kartódromo Internacional Mauá" class="img-fluid mb-4" style="max-height: 220px;">
+                    <h1 class="display-4 fw-bold mb-3">KARTÓDROMO INTERNACIONAL DE MAUÁ</h1>
+                    <p class="fs-5 mb-4 text-white">
+                        A melhor pista do ABC Paulista. Alta performance, segurança total e telemetria profissional para você e seus amigos.
                     </p>
                     <div class="d-flex justify-content-center gap-3">
-                        <a href="login.html" class="btn btn-brand-red btn-lg px-4 py-3 rounded-pill">
-                            <i class="bi bi-flag-fill me-2"></i> Agendar Bateria / Entrar
+                        <a href="login.html" class="btn btn-custom-main btn-lg">
+                            Acessar Área do Piloto
                         </a>
-                        <a href="#sobre" class="btn btn-outline-light btn-lg px-4 py-3 rounded-pill">
-                            Saiba Mais
+                        <a href="cadastro.html" class="btn btn-custom-green btn-lg">
+                            Criar minha Conta
                         </a>
                     </div>
                 </div>
@@ -143,146 +175,101 @@
 
     <!-- SOBRE O LOCAL -->
     <section id="sobre" class="py-5">
-        <div class="container py-4">
-            <div class="row align-items-center g-5">
-                <div class="col-lg-6">
-                    <h2 class="fw-bold text-uppercase mb-3" style="color: var(--brand-blue);">
-                        Tradição e Adrenalina em Mauá
-                    </h2>
-                    <p class="text-secondary fs-5">
-                        O **Kartódromo Internacional Mauá** foi projetado para atender desde pilotos amadores e entusiastas do kartismo até campeonatos profissionais oficiais.
-                    </p>
-                    <p class="text-secondary">
-                        Com localização privilegiada e fácil acesso, oferecemos um ambiente seguro, familiar e totalmente preparado para proporcionar momentos inesquecíveis com amigos, família e equipes de empresa.
-                    </p>
+        <div class="container">
+            <div class="card-container">
+                <div class="row align-items-center g-4">
+                    <div class="col-lg-7">
+                        <h3>Tradição e Emoção em Mauá</h3>
+                        <p class="text-muted mt-3">
+                            O <strong>Kartódromo Internacional de Mauá</strong> oferece uma infraestrutura completa para entusiastas do automobilismo, grupos de amigos e campeonatos profissionais.
+                        </p>
+                        <p class="text-muted">
+                            Com traçados técnicos projetados para máxima emoção e segurança, nossos karts contam com manutenção rigorosa e motores preparados Honda de 13 HP.
+                        </p>
 
-                    <div class="row g-3 mt-3">
-                        <div class="col-6">
-                            <div class="stat-box">
-                                <h3 class="fw-bold mb-0 text-white">1.200m</h3>
-                                <small class="text-secondary">Extensão de Pista</small>
+                        <div class="row g-3 mt-2">
+                            <div class="col-6">
+                                <div class="stat-box">
+                                    <h4 class="mb-0 fs-3">1.200m</h4>
+                                    <small class="text-muted">Extensão do Circuito</small>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="stat-box">
-                                <h3 class="fw-bold mb-0 text-white">13 HP</h3>
-                                <small class="text-secondary">Karts Honda Preparados</small>
+                            <div class="col-6">
+                                <div class="stat-box">
+                                    <h4 class="mb-0 fs-3">13 HP</h4>
+                                    <small class="text-muted">Motores Preparados</small>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="col-lg-6">
-                    <div class="p-4 rounded-4 bg-dark border border-secondary text-center">
-                        <img src="LOGO1.png" alt="Logo Kartódromo Mauá" class="img-fluid mb-3" style="max-height: 250px;">
-                        <h4 class="text-white fw-bold mb-2">Pronto para acelerar?</h4>
-                        <p class="text-secondary small mb-4">Acesse nosso sistema online para consultar horários, cadastrar pilotos e acompanhar o ranking atualizado dos campeonatos.</p>
-                        <a href="login.html" class="btn btn-brand-red w-100 py-2">
-                            Acessar Painel do Piloto
-                        </a>
+                    <div class="col-lg-5 text-center">
+                        <div class="p-4 rounded-3 style-box" style="background-color: #458FD5; color: white;">
+                            <h4 class="text-white mb-3">Já tem cadastro?</h4>
+                            <p class="small mb-4">Faça o login para visualizar seus tempos, histórico de baterias e ranking de campeonatos.</p>
+                            <a href="login.html" class="btn btn-custom-main w-100">
+                                Ir para a Tela de Login
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ESTRUTURA & DIFERENCIAIS -->
-    <section id="estrutura" class="py-5 style-dark" style="background-color: #181818;">
-        <div class="container py-4">
-            <div class="text-center mb-5">
-                <h2 class="fw-bold text-uppercase">Nossa Estrutura</h2>
-                <p class="text-secondary">Tudo o que você precisa para uma experiência completa e segura</p>
-            </div>
-
+    <!-- ESTRUTURA -->
+    <section id="estrutura" class="py-4">
+        <div class="container">
+            <h2 class="text-center fw-bold mb-4">Diferenciais da Nossa Pista</h2>
+            
             <div class="row g-4">
                 <div class="col-md-4">
-                    <div class="card card-feature p-4 text-center h-100">
-                        <div class="icon-box mb-3"><i class="bi bi-stopwatch-fill"></i></div>
-                        <h5 class="fw-bold text-white mb-2">Telemetria Digital</h5>
-                        <p class="text-secondary small">Sistema de cronometragem eletrônica com sensores de precisão, oferecendo tempos por volta e relatórios detalhados no painel do piloto.</p>
+                    <div class="card-container text-center">
+                        <div class="icon-box mb-2"><i class="bi bi-stopwatch-fill"></i></div>
+                        <h5>Telemetria Digital</h5>
+                        <p class="text-muted small mb-0">Sistema de cronometragem eletrônica em tempo real com acesso direto ao relatório de voltas pelo sistema.</p>
                     </div>
                 </div>
 
                 <div class="col-md-4">
-                    <div class="card card-feature p-4 text-center h-100">
-                        <div class="icon-box mb-3"><i class="bi bi-brightness-high-fill"></i></div>
-                        <h5 class="fw-bold text-white mb-2">Iluminação LED Noturna</h5>
-                        <p class="text-secondary small">Pista 100% equipada com refletores LED de alta definição, permitindo corridas noturnas com visibilidade e segurança total.</p>
+                    <div class="card-container text-center">
+                        <div class="icon-box mb-2"><i class="bi bi-shield-check"></i></div>
+                        <h5>Equipamento Incluso</h5>
+                        <p class="text-muted small mb-0">Capacetes, macacões e luvas higienizados, além de instrução de segurança completa antes de cada bateria.</p>
                     </div>
                 </div>
 
                 <div class="col-md-4">
-                    <div class="card card-feature p-4 text-center h-100">
-                        <div class="icon-box mb-3"><i class="bi bi-cup-hot-fill"></i></div>
-                        <h5 class="fw-bold text-white mb-2">Lanchonete & Deck VIP</h5>
-                        <p class="text-secondary small">Espaço para convidados com visão panorâmica de todo o circuito, servindo porções, bebidas e hambúrgueres artesanais.</p>
-                    </div>
-                </div>
-
-                <div class="col-md-4">
-                    <div class="card card-feature p-4 text-center h-100">
-                        <div class="icon-box mb-3"><i class="bi bi-trophy-fill"></i></div>
-                        <h5 class="fw-bold text-white mb-2">Pódio Profissional</h5>
-                        <p class="text-secondary small">Pódio oficial para premiações ao final de cada bateria ou campeonato, com troféus para os três primeiros colocados.</p>
-                    </div>
-                </div>
-
-                <div class="col-md-4">
-                    <div class="card card-feature p-4 text-center h-100">
-                        <div class="icon-box mb-3"><i class="bi bi-shield-check"></i></div>
-                        <h5 class="fw-bold text-white mb-2">Segurança Garantida</h5>
-                        <p class="text-secondary small">Equipamentos inclusos (macacão, capacete e luvas), além de equipe de fiscais de pista e primeiros socorros treinados.</p>
-                    </div>
-                </div>
-
-                <div class="col-md-4">
-                    <div class="card card-feature p-4 text-center h-100">
-                        <div class="icon-box mb-3"><i class="bi bi-buildings-fill"></i></div>
-                        <h5 class="fw-bold text-white mb-2">Eventos Corporativos</h5>
-                        <p class="text-secondary small">Pacotes exclusivos para empresas com reservas de pista, torneios personalizados e serviços de buffet dedicados.</p>
+                    <div class="card-container text-center">
+                        <div class="icon-box mb-2"><i class="bi bi-trophy-fill"></i></div>
+                        <h5>Pódio e Torneios</h5>
+                        <p class="text-muted small mb-0">Estrutura oficial com pódio para premiação de corridas em grupo e torneios corporativos.</p>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
-
-    <!-- BANNER DE CHAMADA -->
-    <section class="py-5 text-center text-white" style="background: linear-gradient(90deg, var(--brand-red), #b02a11);">
-        <div class="container py-3">
-            <h2 class="fw-bold mb-2">DESAFIE SEUS LIMITES HOJE MESMO!</h2>
-            <p class="mb-4 fs-5">Faça seu login para consultar o grid de largada, gerenciar baterias ou cadastrar novos pilotos.</p>
-            <a href="login.html" class="btn btn-brand-yellow btn-lg px-5 rounded-pill shadow">
-                Acessar Sistema de Campeonatos
-            </a>
         </div>
     </section>
 
     <!-- FOOTER / CONTATO -->
-    <footer id="contato" class="py-5">
+    <footer id="contato" class="py-4 mt-5">
         <div class="container">
-            <div class="row g-4">
-                <div class="col-md-4">
-                    <img src="LOGO1.png" alt="Logo" height="50" class="mb-3">
-                    <p class="text-secondary small">Kartódromo Internacional Mauá. A melhor experiência automobilística da região com estrutura de ponta e diversão garantida.</p>
+            <div class="row g-4 align-items-center">
+                <div class="col-md-6">
+                    <div class="d-flex align-items-center mb-2">
+                        <img src="LOGO1.png" alt="Logo" height="40" class="me-2">
+                        <h5 class="mb-0 fw-bold">Kartódromo Internacional de Mauá</h5>
+                    </div>
+                    <p class="small text-white-50 mb-0">O melhor espaço de velocidade e lazer no ABC Paulista.</p>
                 </div>
-                <div class="col-md-4">
-                    <h5 class="text-white fw-bold mb-3">Funcionamento & Local</h5>
-                    <p class="text-secondary mb-1"><i class="bi bi-geo-alt-fill text-danger me-2"></i> Mauá - SP (Próximo ao Rodoanel)</p>
-                    <p class="text-secondary mb-1"><i class="bi bi-clock-fill text-warning me-2"></i> Terça a Sexta: 14h às 23h</p>
-                    <p class="text-secondary"><i class="bi bi-clock-fill text-warning me-2"></i> Sábados e Domingos: 09h às 22h</p>
-                </div>
-                <div class="col-md-4">
-                    <h5 class="text-white fw-bold mb-3">Links Rápidos</h5>
-                    <ul class="list-unstyled">
-                        <li><a href="login.html" class="text-secondary text-decoration-none"><i class="bi bi-chevron-right me-1"></i> Área de Login / Sistema</a></li>
-                        <li><a href="#sobre" class="text-secondary text-decoration-none"><i class="bi bi-chevron-right me-1"></i> Sobre o Kartódromo</a></li>
-                        <li><a href="#estrutura" class="text-secondary text-decoration-none"><i class="bi bi-chevron-right me-1"></i> Infraestrutura</a></li>
-                    </ul>
+                <div class="col-md-6 text-md-end">
+                    <p class="mb-1"><i class="bi bi-geo-alt-fill text-warning me-1"></i> Mauá - SP</p>
+                    <p class="mb-2"><i class="bi bi-clock-fill text-warning me-1"></i> Ter a Dom: 14h às 22h</p>
+                    <p class="mb-0">Não tem conta? <a href="cadastro.html">Cadastre-se aqui</a></p>
                 </div>
             </div>
-            <hr class="border-secondary my-4">
-            <div class="text-center text-secondary small">
-                &copy; 2026 Kartódromo Internacional Mauá. Todos os direitos reservados.
+            <hr class="my-3 border-light opacity-25">
+            <div class="text-center small text-white-50">
+                &copy; 2026 Kartódromo Internacional de Mauá. Todos os direitos reservados.
             </div>
         </div>
     </footer>
