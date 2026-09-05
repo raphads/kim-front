@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kartódromo Mauá - Gestão de Campeonatos</title>
+  <title>Kartódromo Mauá - Campeonatos e Pistas</title>
   
   <link rel="icon" href="LOGO1.png">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -11,6 +11,36 @@
   <link rel="stylesheet" href="style.css">
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <style>
+    .pista-card {
+      border: 2px dashed var(--blue-main, #458FD5);
+      border-radius: 10px;
+      padding: 10px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      background-color: #f8fafc;
+    }
+    .pista-card:hover {
+      border-color: var(--orange-hover, #ff6b00);
+      background-color: #eff6ff;
+      transform: translateY(-2px);
+    }
+    .pista-img {
+      width: 100%;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 6px;
+      margin-bottom: 6px;
+    }
+    .pista-thumb-mini {
+      width: 45px;
+      height: 35px;
+      object-fit: cover;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+  </style>
 </head>
 <body>
 
@@ -19,11 +49,11 @@
     <div class="container d-flex justify-content-between align-items-center">
       <div class="d-flex align-items-center gap-3">
         <img src="LOGO1.png" alt="Kartódromo Mauá" height="50">
-        <h4 class="m-0 fw-bold text-white">Gestão de Campeonatos</h4>
+        <h4 class="m-0 fw-bold text-white">Cadastro de Campeonatos e Pistas</h4>
       </div>
       <div class="d-flex gap-2">
         <a href="podio.html" class="btn btn-outline-light rounded-pill px-3 fs-6">
-          <i class="bi bi-trophy-fill me-1"></i> Definir Pódio
+          <i class="bi bi-trophy-fill me-1"></i> Pódio
         </a>
         <a href="piloto.html" class="btn btn-outline-light rounded-pill px-3 fs-6">
           <i class="bi bi-person-badge-fill me-1"></i> Pilotos
@@ -34,116 +64,204 @@
 
   <!-- CONTEÚDO PRINCIPAL -->
   <main class="container mb-5">
-    <div class="row g-4">
-      
-      <!-- FORMULÁRIO -->
-      <div class="col-lg-4">
-        <div class="container-card">
-          <h2>Novo Campeonato</h2>
-          <form id="formCampeonato">
+    <div class="container-card mb-4">
+      <h2><i class="bi bi-flag-fill text-warning me-2"></i>Novo Campeonato</h2>
+
+      <form id="formCampeonato">
+        <div class="row g-3 mb-3">
+          <div class="col-md-8">
             <label for="nome">Nome do Campeonato</label>
-            <input type="text" id="nome" placeholder="Ex: Copa Mauá 2026" required>
-
-            <label for="voltas">Nº de Voltas</label>
-            <input type="number" id="voltas" placeholder="Ex: 25" min="1" required>
-
-            <label for="dataInicio">Data de Realização</label>
-            <input type="date" id="dataInicio" required>
-
-            <button type="submit" class="btn-salvar w-100 mt-2">
-              <i class="bi bi-plus-circle-fill me-1"></i> Cadastrar Torneio
-            </button>
-          </form>
-        </div>
-      </div>
-
-      <!-- TABELA -->
-      <div class="col-lg-8">
-        <div class="container-tabela">
-          <div class="d-flex justify-content-between align-items-center mb-3">
-            <h2 class="m-0">Campeonatos Cadastrados</h2>
+            <input type="text" id="nome" required placeholder="Ex: Grand Prix Mauá 2026">
           </div>
-          
-          <div class="table-responsive">
-            <table>
-              <thead>
-                <tr>
-                  <th>Nome</th>
-                  <th>Voltas</th>
-                  <th>Data</th>
-                  <th>Ações</th>
-                </tr>
-              </thead>
-              <tbody id="tabelaCampeonatos">
-                <!-- Preenchido via JS -->
-              </tbody>
-            </table>
+          <div class="col-md-4">
+            <label for="voltas">Número de Voltas</label>
+            <input type="number" id="voltas" required min="1" placeholder="Ex: 15">
           </div>
         </div>
-      </div>
 
+        <div class="col-md-4">
+          <label for="data">Data do Campeonato</label>
+          <input type="date" id="data" required>
+        </div>
+
+        <div class="mb-3">
+          <label class="fw-bold mb-2">Fotos das Pistas (Clique no card para alterar)</label>
+          <div class="row g-3">
+            
+            <!-- Pista 1 -->
+            <div class="col-6 col-md-3">
+              <div class="pista-card" onclick="document.getElementById('filePista1').click()">
+                <img id="imgPista1" src="pista.png" alt="Pista 1" class="pista-img">
+                <span class="fw-bold text-secondary">Pista 1</span>
+                <input type="file" id="filePista1" accept="image/*" style="display: none;" onchange="atualizarImagem(this, 'imgPista1', 'pathPista1')">
+                <input type="hidden" id="pathPista1" value="pista.png">
+              </div>
+            </div>
+
+            <!-- Pista 2 -->
+            <div class="col-6 col-md-3">
+              <div class="pista-card" onclick="document.getElementById('filePista2').click()">
+                <img id="imgPista2" src="pista.png" alt="Pista 2" class="pista-img">
+                <span class="fw-bold text-secondary">Pista 2</span>
+                <input type="file" id="filePista2" accept="image/*" style="display: none;" onchange="atualizarImagem(this, 'imgPista2', 'pathPista2')">
+                <input type="hidden" id="pathPista2" value="pista.png">
+              </div>
+            </div>
+
+            <!-- Pista 3 -->
+            <div class="col-6 col-md-3">
+              <div class="pista-card" onclick="document.getElementById('filePista3').click()">
+                <img id="imgPista3" src="pista.png" alt="Pista 3" class="pista-img">
+                <span class="fw-bold text-secondary">Pista 3</span>
+                <input type="file" id="filePista3" accept="image/*" style="display: none;" onchange="atualizarImagem(this, 'imgPista3', 'pathPista3')">
+                <input type="hidden" id="pathPista3" value="pista.png">
+              </div>
+            </div>
+
+            <!-- Pista 4 -->
+            <div class="col-6 col-md-3">
+              <div class="pista-card" onclick="document.getElementById('filePista4').click()">
+                <img id="imgPista4" src="pista.png" alt="Pista 4" class="pista-img">
+                <span class="fw-bold text-secondary">Pista 4</span>
+                <input type="file" id="filePista4" accept="image/*" style="display: none;" onchange="atualizarImagem(this, 'imgPista4', 'pathPista4')">
+                <input type="hidden" id="pathPista4" value="pista.png">
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <button type="submit" class="btn-salvar w-100 py-3 mt-2">
+          <i class="bi bi-check-circle-fill me-1"></i> Salvar Campeonato
+        </button>
+      </form>
+
+      <div id="mensagem" class="alert mt-3" style="display: none;"></div>
+    </div>
+
+    <!-- TABELA DE CAMPEONATOS -->
+    <div class="container-tabela">
+      <h2 class="mb-3">Campeonatos Cadastrados</h2>
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nome</th>
+              <th>Data</th>
+              <th>Voltas</th>
+              <th>Pistas Cadastradas</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody id="tabelaCampeonatos">
+            <!-- Preenchido via JS -->
+          </tbody>
+        </table>
+      </div>
     </div>
   </main>
 
   <script>
     const API_URL = 'http://localhost:3000/api/campeonatos';
 
-    // 1. Listar Campeonatos (GET)
-    async function carregarCampeonatos() {
-      try {
-        const res = await fetch(API_URL);
-        const campeonatos = await res.json();
-        
-        const tbody = document.getElementById('tabelaCampeonatos');
-        if (!campeonatos || campeonatos.length === 0) {
-          tbody.innerHTML = '<tr><td colspan="4" class="text-center text-muted py-3">Nenhum campeonato cadastrado.</td></tr>';
-          return;
-        }
+    document.addEventListener('DOMContentLoaded', carregarCampeonatos);
 
-        tbody.innerHTML = campeonatos.map(c => `
-          <tr>
-            <td><strong>${c.nome}</strong></td>
-            <td><span class="badge bg-primary fs-6">${c.voltas || 0} voltas</span></td>
-            <td>${c.dataInicio ? new Date(c.dataInicio).toLocaleDateString('pt-BR') : '-'}</td>
-            <td>
-              <button class="btn-delete" onclick="deletarCampeonato('${c.id || c.nome}')">
-                <i class="bi bi-trash-fill"></i> Excluir
-              </button>
-            </td>
-          </tr>
-        `).join('');
-      } catch (err) {
-        console.error('Erro ao carregar campeonatos:', err);
+    // Converte a imagem carregada para Base64 real e insere no campo oculto
+    function atualizarImagem(input, imgElementId, pathElementId) {
+      if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const base64Image = e.target.result;
+          document.getElementById(imgElementId).src = base64Image;
+          document.getElementById(pathElementId).value = base64Image;
+        };
+        reader.readAsDataURL(input.files[0]);
       }
     }
 
-    // 2. Salvar Campeonato (POST)
+    // Submissão do Formulário
     document.getElementById('formCampeonato').addEventListener('submit', async (e) => {
       e.preventDefault();
-      
-      const campeonato = {
+
+      const payload = {
         nome: document.getElementById('nome').value,
         voltas: Number(document.getElementById('voltas').value),
-        dataInicio: document.getElementById('dataInicio').value
+        data: document.getElementById('data').value, // Formato enviado: YYYY-MM-DD
+        fotoPista1: document.getElementById('pathPista1').value,
+        fotoPista2: document.getElementById('pathPista2').value,
+        fotoPista3: document.getElementById('pathPista3').value,
+        fotoPista4: document.getElementById('pathPista4').value
       };
 
       try {
-        await fetch(API_URL, {
+        const response = await fetch(API_URL, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(campeonato)
+          body: JSON.stringify(payload)
         });
 
-        e.target.reset();
-        carregarCampeonatos();
+        if (response.ok) {
+          exibirMensagem('Campeonato e pistas salvos com sucesso!', 'success');
+          resetarFormulario();
+          carregarCampeonatos();
+        } else {
+          const erro = await response.json();
+          exibirMensagem(`Erro: ${erro.error || 'Falha ao salvar'}`, 'danger');
+        }
       } catch (err) {
-        alert('Erro ao salvar campeonato no servidor.');
+        exibirMensagem('Erro de conexão com a API.', 'danger');
       }
     });
 
-    // 3. Excluir Campeonato (DELETE)
+    function resetarFormulario() {
+      document.getElementById('formCampeonato').reset();
+      for (let i = 1; i <= 4; i++) {
+        document.getElementById(`imgPista${i}`).src = 'pista.png';
+        document.getElementById(`pathPista${i}`).value = 'pista.png';
+      }
+    }
+
+    async function carregarCampeonatos() {
+      try {
+        const response = await fetch(API_URL);
+        const campeonatos = await response.json();
+        const tbody = document.getElementById('tabelaCampeonatos');
+        
+        if (!campeonatos || campeonatos.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="5" class="text-center text-muted py-3">Nenhum campeonato cadastrado.</td></tr>';
+          return;
+        }
+
+        tbody.innerHTML = campeonatos.map(c => {
+          const dataFormatada = new Date(c.data).toLocaleDateString('pt-BR', { timeZone: 'UTC' });
+          const fotos = [c.fotoPista1, c.fotoPista2, c.fotoPista3, c.fotoPista4].filter(f => f && f !== 'pista.png');
+          const fotosHTML = fotos.length > 0 
+            ? fotos.map(f => `<img src="${f}" class="pista-thumb-mini me-1" alt="Pista">`).join('')
+            : '<span class="text-muted">Padrão</span>';
+
+          return `
+            <tr>
+              <td><strong>${c.id || '-'}</strong></td>
+              <td>${c.nome}</td>
+              <td>${dataFormatada}</td>
+              <td><span class="badge bg-primary fs-6">${c.voltas} voltas</span></td>
+              <td><div class="d-flex align-items-center">${fotosHTML}</div></td>
+              <td>
+                <button class="btn-delete" onclick="deletarCampeonato('${c.id || c.nome}')">
+                  <i class="bi bi-trash-fill"></i> Excluir
+                </button>
+              </td>
+            </tr>
+          `;
+        }).join('');
+      } catch (err) {
+        console.error('Erro ao listar campeonatos:', err);
+      }
+    }
+
     async function deletarCampeonato(id) {
-      if (confirm('Deseja realmente excluir este campeonato?')) {
+      if (confirm('Deseja excluir este campeonato?')) {
         try {
           await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
           carregarCampeonatos();
@@ -153,7 +271,13 @@
       }
     }
 
-    carregarCampeonatos();
+    function exibirMensagem(texto, tipo) {
+      const msgDiv = document.getElementById('mensagem');
+      msgDiv.textContent = texto;
+      msgDiv.className = `alert alert-${tipo} mt-3`;
+      msgDiv.style.display = 'block';
+      setTimeout(() => msgDiv.style.display = 'none', 4000);
+    }
   </script>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>

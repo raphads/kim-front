@@ -51,14 +51,15 @@
             <input type="text" id="equipe" placeholder="Nome da equipe">
 
             <div class="row">
-              <div class="col-6">
-                <label for="idade">Idade</label>
-                <input type="number" id="idade" placeholder="Ex: 25" min="10">
-              </div>
-              <div class="col-6">
+               <div class="col-6">
                 <label for="numero">Nº Kart</label>
                 <input type="number" id="numero" placeholder="Ex: 12" min="0">
               </div>
+              <div class="col-6">
+                <label for="idade" style="visibility: hidden;">Idade</label>
+                <input type="number" id="idade" placeholder="Ex: 25" min="10" style="visibility: hidden;">
+              </div>
+             
             </div>
 
             <button type="submit" class="btn-salvar w-100 mt-2">
@@ -82,7 +83,7 @@
                   <th>CPF</th>
                   <th>Nome</th>
                   <th>Equipe</th>
-                  <th>Idade</th>
+                 <!-- <th>Idade</th> -->
                   <th>Nº Kart</th>
                   <th>Ações</th>
                 </tr>
@@ -101,7 +102,7 @@
   <script>
     const API_URL = 'http://localhost:3000/api/pilotos';
 
-    // 1. Listar Pilotos (GET)
+    // 1. Listar Pilotos (GET)  <td>${p.idade}</td> 
     async function carregarPilotos() {
       try {
         const res = await fetch(API_URL);
@@ -118,7 +119,7 @@
             <td><strong>${p.cpf}</strong></td>
             <td>${p.nome}</td>
             <td>${p.equipe || '-'}</td>
-            <td>${p.idade}</td>
+            
             <td><span class="badge bg-secondary fs-6">${p.numero}</span></td>
             <td>
               <button class="btn-delete" onclick="deletarPiloto('${p.cpf}')">
