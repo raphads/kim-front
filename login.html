@@ -1,74 +1,100 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit">
-    <title>Kartódromo Internacional de Mauá - Login</title>
-    <link rel="icon" href="LOGO1.png">
-    <link rel="stylesheet" href="style.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kartódromo Mauá - Login</title>
+  
+  <link rel="icon" href="LOGO1.png">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="style.css">
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
 
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-md-3">
-            <br><br><br><br><br><br>
-            <form id="loginForm">
-                <label>Usuário</label><br>
-                <input type="text" id="usuario" placeholder="Digite seu Usuário" required><br><br>
-                
-                <label>Senha</label><br>
-                <input type="password" id="senha" placeholder="***" required><br><br>
-                
-                <button type="submit" class="btn btn-primary">Entrar</button>
-            </form><br>
-            
-            <label>Não tem uma Conta?</label><br>
-            <a href="cadastro.html" style="color: #EA412C;">Cadastre-se</a>
-        </div>
-
-        <div class="col-md-9">
-            <img src="LOGO1.png" width="100%" height="100%">
-        </div>
+  <header class="py-3 mb-4" style="background-color: var(--navy-dark); border-bottom: 3px solid var(--orange-hover);">
+    <div class="container d-flex justify-content-between align-items-center">
+      <div class="d-flex align-items-center gap-3">
+        <img src="LOGO1.png" alt="Kartódromo Mauá" height="50">
+        <h4 class="m-0 fw-bold text-white">Acesso ao Sistema</h4>
+      </div>
+      <a href="index.html" class="btn btn-outline-light rounded-pill px-3">
+        <i class="bi bi-house-door-fill me-1"></i> Início
+      </a>
     </div>
-</div>
+  </header>
 
-<script>
-  document.getElementById('loginForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
+  <main class="container my-auto pb-5">
+    <div class="row align-items-center justify-content-center g-4">
+      
+      <div class="col-md-6 col-lg-5 text-center">
+        <div class="p-4 bg-white rounded-4 shadow-sm d-inline-block">
+          <img src="LOGO1.png" alt="Kartódromo Internacional de Mauá" class="img-fluid" style="max-height: 280px; object-fit: contain;">
+        </div>
+      </div>
 
-    const usuario = document.getElementById('usuario').value;
-    const senha = document.getElementById('senha').value;
+      <div class="col-md-6 col-lg-5">
+        <div class="container-card m-0">
+          <h2>Entrar</h2>
+          
+          <form id="loginForm">
+            <label for="usuario">Usuário</label>
+            <input type="text" id="usuario" placeholder="Digite seu usuário" required>
 
-    try {
-      const response = await fetch('http://localhost:3000/api/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ usuario, senha })
-      });
+            <label for="senha">Senha</label>
+            <input type="password" id="senha" placeholder="••••••••" required>
 
-      const data = await response.json();
+            <button type="submit" class="btn-salvar w-100 mt-3">
+              <i class="bi bi-box-arrow-in-right me-1"></i> Entrar
+            </button>
+          </form>
 
-      if (response.ok) {
-        // Salva as informações da sessão no navegador
-        localStorage.setItem('usuarioLogado', JSON.stringify(data.usuario));
-        alert('Login realizado com sucesso!');
-        
-        // Redireciona para lista.html
-        window.location.href = 'piloto.html';
-      } else {
-        alert('Erro: ' + data.error);
+          <hr class="my-4">
+
+          <div class="text-center">
+            <p class="mb-1 text-muted">Não tem uma conta?</p>
+            <a href="cadastro.html" class="fw-bold text-decoration-none" style="color: var(--red-accent);">
+              <i class="bi bi-person-plus-fill me-1"></i> Cadastre-se aqui
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const usuario = document.getElementById('usuario').value;
+      const senha = document.getElementById('senha').value;
+
+      try {
+        const response = await fetch('http://localhost:3000/api/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ usuario, senha })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          localStorage.setItem('usuarioLogado', JSON.stringify(data.usuario));
+          alert('Login realizado com sucesso!');
+          window.location.href = 'piloto.html';
+        } else {
+          alert('Erro: ' + (data.error || 'Credenciais inválidas'));
+        }
+      } catch (error) {
+        console.error('Erro ao conectar na API:', error);
+        alert('Falha ao conectar com o servidor.');
       }
-    } catch (error) {
-      console.error('Erro ao conectar na API:', error);
-      alert('Falha ao conectar com o servidor.');
-    }
-  });
-</script>
+    });
+  </script>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
