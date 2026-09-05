@@ -9,6 +9,7 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
   <link rel="stylesheet" href="style.css">
+    <script src="kim.js" defer></script>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.7/jquery.inputmask.min.js"></script>
@@ -45,9 +46,17 @@
             <label for="nome">Nome Completo</label>
             <input type="text" id="nome" placeholder="Nome do funcionário" required>
 
-            <label for="cargo">Cargo</label>
-            <input type="text" id="cargo" placeholder="Ex: Pista, Atendimento, Mecânico" required>
-
+               <label for="cargo">Cargo / Função</label>
+<select id="cargo" name="cargo" class="form-select mb-3" required>
+  <option value="" disabled selected>Selecione o cargo...</option>
+                <option value="Mecânico">Mecânico</option>
+                <option value="Atendente">Atendente</option>
+                <option value="Socorrista">Socorrista</option>
+                <option value="Fiscal de Pista">Fiscal de Pista</option>
+                <option value="Cronometrista">Cronometrista</option>
+                <option value="Gerente">Gerente</option>
+                <option value="Faxineiro">Faxineiro</option>
+                </select>
             <div class="row">
              <!-- <div class="col-6">
                 <label for="turno">Turno</label>
@@ -132,45 +141,43 @@
       }
     }
 
-    // 2. Salvar/Atualizar Funcionário (POST)
-    document.getElementById('formFuncionario').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      
-      const funcionario = {
-        cpf: document.getElementById('cpf').value,
-        nome: document.getElementById('nome').value,
-        cargo: document.getElementById('cargo').value,
-       // turno: document.getElementById('turno').value,
-        salario: Number(document.getElementById('salario').value)
-      };
+// Salvar/Atualizar Funcionário (POST)
+document.getElementById('formFuncionario').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  
+  const cargoSelecionado = document.getElementById('cargo').value;
 
-      try {
-        await fetch(API_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(funcionario)
-        });
+  // Valida se o cargo foi selecionado no combobox
+  if (!cargoSelecionado) {
+    alert('Por favor, selecione um cargo válido.');
+    return;
+  }
 
-        e.target.reset();
-        carregarFuncionarios();
-      } catch (err) {
-        alert('Erro ao salvar funcionário no servidor.');
-      }
+  const funcionario = {
+    cpf: document.getElementById('cpf').value.trim(),
+    nome: document.getElementById('nome').value.trim(),
+    cargo: cargoSelecionado,
+    salario: Number(document.getElementById('salario').value) || 0
+  };
+
+  try {
+    const response = await fetch(API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(funcionario)
     });
 
-    // 3. Excluir Funcionário (DELETE)
-    async function deletarFuncionario(cpf) {
-      if (confirm('Deseja realmente excluir este funcionário?')) {
-        try {
-          await fetch(`${API_URL}/${cpf}`, { method: 'DELETE' });
-          carregarFuncionarios();
-        } catch (err) {
-          alert('Erro ao excluir funcionário.');
-        }
-      }
+    if (response.ok) {
+      e.target.reset();
+      carregarFuncionarios();
+    } else {
+      const erro = await response.json();
+      alert(`Erro ao salvar: ${erro.message || 'Verifique os dados informados.'}`);
     }
-
-    carregarFuncionarios();
+  } catch (err) {
+    alert('Erro de conexão com o servidor.');
+  }
+});
   </script>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
