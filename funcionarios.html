@@ -49,14 +49,14 @@
             <input type="text" id="cargo" placeholder="Ex: Pista, Atendimento, Mecânico" required>
 
             <div class="row">
-              <div class="col-6">
+             <!-- <div class="col-6">
                 <label for="turno">Turno</label>
                 <select id="turno" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ccc; margin-bottom: 15px;">
                   <option value="Manhã">Manhã</option>
                   <option value="Tarde">Tarde</option>
                   <option value="Noite">Noite</option>
                 </select>
-              </div>
+              </div>-->
               <div class="col-6">
                 <label for="salario">Salário (R$)</label>
                 <input type="number" id="salario" step="0.01" placeholder="0.00">
@@ -83,7 +83,7 @@
                   <th>CPF</th>
                   <th>Nome</th>
                   <th>Cargo</th>
-                  <th>Turno</th>
+                  <!-- <th>Turno</th>-->
                   <th>Salário</th>
                   <th>Ações</th>
                 </tr>
@@ -101,7 +101,7 @@
   <script>
     const API_URL = 'http://localhost:3000/api/funcionarios';
 
-    // 1. Listar Funcionários (GET)
+    // 1. Listar Funcionários (GET)   <td>${f.turno || '-'}</td>
     async function carregarFuncionarios() {
       try {
         const res = await fetch(API_URL);
@@ -118,7 +118,7 @@
             <td><strong>${f.cpf}</strong></td>
             <td>${f.nome}</td>
             <td><span class="badge bg-primary fs-6">${f.cargo}</span></td>
-            <td>${f.turno || '-'}</td>
+          
             <td>R$ ${Number(f.salario || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</td>
             <td>
               <button class="btn-delete" onclick="deletarFuncionario('${f.cpf}')">
@@ -140,7 +140,7 @@
         cpf: document.getElementById('cpf').value,
         nome: document.getElementById('nome').value,
         cargo: document.getElementById('cargo').value,
-        turno: document.getElementById('turno').value,
+       // turno: document.getElementById('turno').value,
         salario: Number(document.getElementById('salario').value)
       };
 
