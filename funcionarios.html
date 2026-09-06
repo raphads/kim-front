@@ -36,35 +36,36 @@
   <main class="container mb-5">
     <div class="row g-4">
       
-      <!-- Formulário de Cadastro -->
-      <div class="col-lg-5">
+      <!-- Formulário de Cadastro (Ocupa 100% da largura superior) -->
+      <div class="col-12">
         <div class="container-card">
           <h2>Cadastrar Funcionário</h2>
           <form id="formFuncionario">
             
-            <div class="mb-2">
-              <label for="cpf" class="form-label mb-1">CPF</label>
-              <input type="text" id="cpf" class="form-control" placeholder="000.000.000-00" required>
-            </div>
-
-            <div class="mb-2">
-              <label for="nome" class="form-label mb-1">Nome Completo</label>
-              <input type="text" id="nome" class="form-control" placeholder="Nome do funcionário" required>
+            <div class="row mb-2">
+              <div class="col-md-4 mb-2">
+                <label for="cpf" class="form-label mb-1">CPF</label>
+                <input type="text" id="cpf" class="form-control" placeholder="000.000.000-00" required>
+              </div>
+              <div class="col-md-8 mb-2">
+                <label for="nome" class="form-label mb-1">Nome Completo</label>
+                <input type="text" id="nome" class="form-control" placeholder="Nome do funcionário" required>
+              </div>
             </div>
 
             <div class="row mb-2">
-              <div class="col-6">
+              <div class="col-md-6 mb-2">
                 <label for="email" class="form-label mb-1">E-mail</label>
                 <input type="email" id="email" class="form-control" placeholder="email@exemplo.com" required>
               </div>
-              <div class="col-6">
+              <div class="col-md-6 mb-2">
                 <label for="dataNasc" class="form-label mb-1">Data de Nasc.</label>
                 <input type="date" id="dataNasc" class="form-control" required>
               </div>
             </div>
 
             <div class="row mb-2">
-              <div class="col-6">
+              <div class="col-md-6 mb-2">
                 <label for="cargo" class="form-label mb-1">Cargo / Função</label>
                 <select id="cargo" name="cargo" class="form-select" required>
                   <option value="" disabled selected>Selecione...</option>
@@ -77,7 +78,7 @@
                   <option value="Faxineiro">Faxineiro</option>
                 </select>
               </div>
-              <div class="col-6">
+              <div class="col-md-6 mb-2">
                 <label for="salario" class="form-label mb-1">Salário (R$)</label>
                 <input type="number" id="salario" class="form-control" step="0.01" min="0" placeholder="0.00" required>
               </div>
@@ -93,31 +94,30 @@
             <h6 class="fw-bold mb-2">Endereço</h6>
 
             <div class="row mb-2">
-              <div class="col-6">
+              <div class="col-md-4 mb-2">
                 <label for="cep" class="form-label mb-1">CEP</label>
                 <input type="text" id="cep" class="form-control" placeholder="00000-000" maxlength="9" required>
               </div>
-              <div class="col-6">
+              <div class="col-md-6 mb-2">
+                <label for="logradouro" class="form-label mb-1">Logradouro (Rua/Av.)</label>
+                <input type="text" id="logradouro" class="form-control" required>
+              </div>
+              <div class="col-md-2 mb-2">
                 <label for="numero" class="form-label mb-1">Número</label>
                 <input type="text" id="numero" class="form-control" placeholder="123" required>
               </div>
             </div>
 
-            <div class="mb-2">
-              <label for="logradouro" class="form-label mb-1">Logradouro (Rua/Av.)</label>
-              <input type="text" id="logradouro" class="form-control" required>
-            </div>
-
             <div class="row mb-2">
-              <div class="col-5">
+              <div class="col-md-5 mb-2">
                 <label for="bairro" class="form-label mb-1">Bairro</label>
                 <input type="text" id="bairro" class="form-control" required>
               </div>
-              <div class="col-5">
+              <div class="col-md-5 mb-2">
                 <label for="cidade" class="form-label mb-1">Cidade</label>
                 <input type="text" id="cidade" class="form-control" required>
               </div>
-              <div class="col-2">
+              <div class="col-md-2 mb-2">
                 <label for="uf" class="form-label mb-1">UF</label>
                 <input type="text" id="uf" class="form-control text-uppercase" maxlength="2" required>
               </div>
@@ -130,22 +130,25 @@
         </div>
       </div>
 
-      <!-- Tabela de Listagem -->
-      <div class="col-lg-7">
+      <!-- Tabela de Listagem (Ocupa 100% da largura inferior) -->
+      <div class="col-12">
         <div class="container-tabela">
           <div class="d-flex justify-content-between align-items-center mb-3">
             <h2 class="m-0">Quadro de Funcionários</h2>
           </div>
           
           <div class="table-responsive">
-            <table>
+            <table class="table align-middle">
               <thead>
                 <tr>
+                  <th>Foto</th>
                   <th>CPF</th>
                   <th>Nome</th>
+                  <th>E-mail</th>
+                  <th>Data Nasc.</th>
                   <th>Cargo</th>
-                  <th>Cidade/UF</th>
                   <th>Salário</th>
+                  <th>Endereço Completo</th>
                   <th>Ações</th>
                 </tr>
               </thead>
@@ -162,9 +165,9 @@
   <script>
     const API_URL = 'http://localhost:3000/api/funcionarios';
 
-    // 🔍 Integração ViaCEP (Autopreenchimento)
+    // 🔍 Integração ViaCEP (Autopreenchimento corrigido)
     document.getElementById('cep').addEventListener('blur', async (e) => {
-      const cep = e.target.value;//.replace(/\D/g, '');
+      const cep = e.target.value.replace(/\D/g, ''); // Limpa caracteres não numéricos
       if (cep.length !== 8) return;
 
       try {
@@ -186,7 +189,14 @@
       }
     });
 
-    // 1. Listar Funcionários (GET)
+    // Função auxiliar para formatar a data recebida da API
+    function formatarData(dataIso) {
+      if (!dataIso) return '-';
+      const data = new Date(dataIso);
+      return isNaN(data.getTime()) ? dataIso : data.toLocaleDateString('pt-BR', { timeZone: 'UTC' });
+    }
+
+    // 1. Listar Funcionários (GET) com todos os campos na tabela
     async function carregarFuncionarios() {
       const tbody = document.getElementById('tabelaFuncionarios');
       
@@ -195,27 +205,40 @@
         const funcionarios = await res.json();
         
         if (!Array.isArray(funcionarios) || funcionarios.length === 0) {
-          tbody.innerHTML = '<tr><td colspan="6" class="text-center text-muted py-3">Nenhum funcionário cadastrado.</td></tr>';
+          tbody.innerHTML = '<tr><td colspan="9" class="text-center text-muted py-3">Nenhum funcionário cadastrado.</td></tr>';
           return;
         }
 
-        tbody.innerHTML = funcionarios.map(f => `
-          <tr>
-            <td><strong>${f.cpf}</strong></td>
-            <td>${f.nome}</td>
-            <td><span class="badge bg-primary fs-6">${f.cargo || '-'}</span></td>
-            <td>${f.cidade ? `${f.cidade}/${f.uf}` : '-'}</td>
-            <td>R$ ${Number(f.salario || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</td>
-            <td>
-              <button class="btn-delete" onclick="deletarFuncionario('${f.cpf}')">
-                <i class="bi bi-trash-fill"></i> Excluir
-              </button>
-            </td>
-          </tr>
-        `).join('');
+        tbody.innerHTML = funcionarios.map(f => {
+          const fotoImg = f.foto 
+            ? `<img src="${f.foto}" alt="${f.nome}" class="rounded-circle" width="40" height="40" style="object-fit: cover;">`
+            : `<i class="bi bi-person-circle fs-3 text-secondary"></i>`;
+
+          const enderecoFormatado = f.logradouro 
+            ? `${f.logradouro}, ${f.numero || 'S/N'}${f.bairro ? ` - ${f.bairro}` : ''}, ${f.cidade || ''}/${f.uf || ''} (CEP: ${f.cep || '-'})`
+            : '-';
+
+          return `
+            <tr>
+              <td class="text-center">${fotoImg}</td>
+              <td><strong>${f.cpf || '-'}</strong></td>
+              <td>${f.nome || '-'}</td>
+              <td>${f.email || '-'}</td>
+              <td>${formatarData(f.dataNasc)}</td>
+              <td><span class="badge bg-primary fs-6">${f.cargo || '-'}</span></td>
+              <td>R$ ${Number(f.salario || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</td>
+              <td><small>${enderecoFormatado}</small></td>
+              <td>
+                <button class="btn-delete" onclick="deletarFuncionario('${f.cpf}')">
+                  <i class="bi bi-trash-fill"></i> Excluir
+                </button>
+              </td>
+            </tr>
+          `;
+        }).join('');
       } catch (err) {
         console.error('Erro ao carregar funcionários:', err);
-        tbody.innerHTML = '<tr><td colspan="6" class="text-center text-danger py-3">Erro ao conectar com o servidor.</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="9" class="text-center text-danger py-3">Erro ao conectar com o servidor.</td></tr>';
       }
     }
 
