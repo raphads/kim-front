@@ -36,7 +36,7 @@
   <main class="container mb-5">
     <div class="row g-4">
       
-      <!-- Formulário de Cadastro (Ocupa 100% da largura superior) -->
+      <!-- Formulário de Cadastro -->
       <div class="col-12">
         <div class="container-card">
           <h2>Cadastrar Funcionário</h2>
@@ -59,7 +59,7 @@
                 <input type="email" id="email" class="form-control" placeholder="email@exemplo.com" required>
               </div>
               <div class="col-md-6 mb-2">
-                <label for="dataNasc" class="form-label mb-1">Data de Nasc.</label>
+                <label for="dataNasc" class="form-label mb-1">Data de Nascimento</label>
                 <input type="date" id="dataNasc" class="form-control" required>
               </div>
             </div>
@@ -130,7 +130,7 @@
         </div>
       </div>
 
-      <!-- Tabela de Listagem (Ocupa 100% da largura inferior) -->
+      <!-- Tabela de Listagem -->
       <div class="col-12">
         <div class="container-tabela">
           <div class="d-flex justify-content-between align-items-center mb-3">
@@ -138,7 +138,7 @@
           </div>
           
           <div class="table-responsive">
-            <table class="table align-middle">
+            <table class="table align-middle text-nowrap">
               <thead>
                 <tr>
                   <th>Foto</th>
@@ -148,7 +148,12 @@
                   <th>Data Nasc.</th>
                   <th>Cargo</th>
                   <th>Salário</th>
-                  <th>Endereço Completo</th>
+                  <th>CEP</th>
+                  <th>Logradouro</th>
+                  <th>Nº</th>
+                  <th>Bairro</th>
+                  <th>Cidade</th>
+                  <th>UF</th>
                   <th>Ações</th>
                 </tr>
               </thead>
@@ -165,9 +170,22 @@
   <script>
     const API_URL = 'http://localhost:3000/api/funcionarios';
 
-    // 🔍 Integração ViaCEP (Autopreenchimento corrigido)
+    // Aplicação das máscaras no formulário
+    $(document).ready(function() {
+      $('#cpf').inputmask('999.999.999-99');
+      $('#cep').inputmask('99999-999');
+    });
+
+    // Formatar data em PT-BR
+    function formatarData(dataIso) {
+      if (!dataIso) return '-';
+      const data = new Date(dataIso);
+      return isNaN(data.getTime()) ? dataIso : data.toLocaleDateString('pt-BR', { timeZone: 'UTC' });
+    }
+
+    // 🔍 Integração ViaCEP
     document.getElementById('cep').addEventListener('blur', async (e) => {
-      const cep = e.target.value.replace(/\D/g, ''); // Limpa caracteres não numéricos
+      const cep = e.target.value.replace(/\D/g, '');
       if (cep.length !== 8) return;
 
       try {
@@ -189,14 +207,7 @@
       }
     });
 
-    // Função auxiliar para formatar a data recebida da API
-    function formatarData(dataIso) {
-      if (!dataIso) return '-';
-      const data = new Date(dataIso);
-      return isNaN(data.getTime()) ? dataIso : data.toLocaleDateString('pt-BR', { timeZone: 'UTC' });
-    }
-
-    // 1. Listar Funcionários (GET) com todos os campos na tabela
+    // 1. Listar Funcionários (GET)
     async function carregarFuncionarios() {
       const tbody = document.getElementById('tabelaFuncionarios');
       
@@ -205,7 +216,7 @@
         const funcionarios = await res.json();
         
         if (!Array.isArray(funcionarios) || funcionarios.length === 0) {
-          tbody.innerHTML = '<tr><td colspan="9" class="text-center text-muted py-3">Nenhum funcionário cadastrado.</td></tr>';
+          tbody.innerHTML = '<tr><td colspan="14" class="text-center text-muted py-3">Nenhum funcionário cadastrado.</td></tr>';
           return;
         }
 
@@ -213,10 +224,6 @@
           const fotoImg = f.foto 
             ? `<img src="${f.foto}" alt="${f.nome}" class="rounded-circle" width="40" height="40" style="object-fit: cover;">`
             : `<i class="bi bi-person-circle fs-3 text-secondary"></i>`;
-
-          const enderecoFormatado = f.logradouro 
-            ? `${f.logradouro}, ${f.numero || 'S/N'}${f.bairro ? ` - ${f.bairro}` : ''}, ${f.cidade || ''}/${f.uf || ''} (CEP: ${f.cep || '-'})`
-            : '-';
 
           return `
             <tr>
@@ -227,7 +234,12 @@
               <td>${formatarData(f.dataNasc)}</td>
               <td><span class="badge bg-primary fs-6">${f.cargo || '-'}</span></td>
               <td>R$ ${Number(f.salario || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</td>
-              <td><small>${enderecoFormatado}</small></td>
+              <td>${f.cep || '-'}</td>
+              <td>${f.logradouro || '-'}</td>
+              <td>${f.numero || '-'}</td>
+              <td>${f.bairro || '-'}</td>
+              <td>${f.cidade || '-'}</td>
+              <td>${f.uf || '-'}</td>
               <td>
                 <button class="btn-delete" onclick="deletarFuncionario('${f.cpf}')">
                   <i class="bi bi-trash-fill"></i> Excluir
@@ -238,11 +250,11 @@
         }).join('');
       } catch (err) {
         console.error('Erro ao carregar funcionários:', err);
-        tbody.innerHTML = '<tr><td colspan="9" class="text-center text-danger py-3">Erro ao conectar com o servidor.</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="14" class="text-center text-danger py-3">Erro ao conectar com o servidor.</td></tr>';
       }
     }
 
-    // 2. Salvar Funcionário (POST)
+    // 2. Salvar Funcionário (POST) - Envia o CPF COM Máscara e dispara os Alertas
     document.getElementById('formFuncionario').addEventListener('submit', async (e) => {
       e.preventDefault();
       
@@ -255,14 +267,14 @@
       }
 
       const funcionario = {
-        cpf: document.getElementById('cpf').value.replace(/\D/g, ''),
+        cpf: document.getElementById('cpf').value.trim(), // Envia o CPF COM a máscara (ex: 123.456.789-00)
         nome: document.getElementById('nome').value.trim(),
         email: document.getElementById('email').value.trim(),
         dataNasc: new Date(dataNascInput).toISOString(),
         cargo: document.getElementById('cargo').value,
         salario: salarioValor,
         foto: document.getElementById('foto').value.trim() || null,
-        cep: document.getElementById('cep').value.replace(/\D/g, ''),
+        cep: document.getElementById('cep').value.trim(),
         logradouro: document.getElementById('logradouro').value.trim(),
         numero: document.getElementById('numero').value.trim(),
         bairro: document.getElementById('bairro').value.trim(),
@@ -278,6 +290,7 @@
         });
 
         if (response.ok) {
+          alert('Funcionário cadastrado com sucesso!');
           e.target.reset();
           carregarFuncionarios();
         } else {
@@ -285,7 +298,7 @@
           alert(`Erro ao salvar: ${erro.message || 'Verifique os dados informados.'}`);
         }
       } catch (err) {
-        alert('Erro de conexão com o servidor.');
+        alert('Erro de conexão com o servidor ao tentar salvar.');
       }
     });
 
@@ -293,14 +306,15 @@
     async function deletarFuncionario(cpf) {
       if (confirm(`Deseja realmente excluir o funcionário com CPF ${cpf}?`)) {
         try {
-          const response = await fetch(`${API_URL}/${cpf}`, { method: 'DELETE' });
+          const response = await fetch(`${API_URL}/${encodeURIComponent(cpf)}`, { method: 'DELETE' });
           if (response.ok) {
+            alert('Funcionário excluído com sucesso!');
             carregarFuncionarios();
           } else {
             alert('Não foi possível excluir o funcionário.');
           }
         } catch (err) {
-          alert('Erro ao conectar com o servidor.');
+          alert('Erro ao conectar com o servidor ao excluir.');
         }
       }
     }
@@ -310,4 +324,4 @@
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-</html>
+</html> 
