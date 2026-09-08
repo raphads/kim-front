@@ -38,6 +38,22 @@
         <div class="container-card">
           <h2>Cadastrar Piloto</h2>
           <form id="formPiloto">
+
+             <!-- Upload de Foto em Base64 com Preview -->
+            <div class="text-center mb-3">
+              <label class="form-label d-block fw-bold mb-2">Foto do Funcionário</label>
+              <div class="d-inline-block position-relative">
+                <img id="previewFoto" src="foto1.jpg" alt="Foto Funcionário" class="rounded-circle border shadow-sm" style="width: 120px; height: 120px; object-fit: cover; cursor: pointer;">
+                <input type="file" id="fotoInput" accept="image/*" class="d-none">
+              </div>
+              <div class="mt-2">
+                <button type="button" class="btn btn-sm btn-outline-secondary" onclick="document.getElementById('fotoInput').click()">
+                  <i class="bi bi-camera-fill me-1"></i> Selecionar Foto
+                </button>
+              </div>
+            </div>
+
+
             <label for="cpf">CPF</label>
             <input type="text" id="cpf" placeholder="000.000.000-00" required>
 
@@ -49,9 +65,6 @@
 
             <label for="equipe">Equipe</label>
             <input type="text" id="equipe" placeholder="Nome da equipe">
-
-            <label for="foto">Foto do Piloto</label>
-            <input type="file" id="foto" accept="image/*" class="form-control mb-2">
 
             <div class="row">
                <div class="col-6">
