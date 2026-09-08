@@ -50,16 +50,18 @@
             <label for="equipe">Equipe</label>
             <input type="text" id="equipe" placeholder="Nome da equipe">
 
+            <label for="foto">Foto do Piloto</label>
+            <input type="file" id="foto" accept="image/*" class="form-control mb-2">
+
             <div class="row">
                <div class="col-6">
                 <label for="numero">Nº Kart</label>
-                <input type="number" id="numero" placeholder="Ex: 12" min="0">
+                <input type="number" id="numero" placeholder="Ex: 12" min="0" required>
               </div>
               <div class="col-6">
                 <label for="idade" style="visibility: hidden;">Idade</label>
                 <input type="number" id="idade" placeholder="Ex: 25" min="10" style="visibility: hidden;">
               </div>
-             
             </div>
 
             <button type="submit" class="btn-salvar w-100 mt-2">
@@ -80,10 +82,10 @@
             <table>
               <thead>
                 <tr>
+                  <th>Foto</th>
                   <th>CPF</th>
                   <th>Nome</th>
                   <th>Equipe</th>
-                 <!-- <th>Idade</th> -->
                   <th>Nº Kart</th>
                   <th>Ações</th>
                 </tr>
@@ -102,7 +104,17 @@
   <script>
     const API_URL = 'http://localhost:3000/api/pilotos';
 
-    // 1. Listar Pilotos (GET)  <td>${p.idade}</td> 
+    // Função para converter arquivo de imagem para Base64
+    function converterParaBase64(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+      });
+    }
+
+    // 1. Listar Pilotos (GET)
     async function carregarPilotos() {
       try {
         const res = await fetch(API_URL);
@@ -114,20 +126,26 @@
           return;
         }
 
-        tbody.innerHTML = pilotos.map(p => `
-          <tr>
-            <td><strong>${p.cpf}</strong></td>
-            <td>${p.nome}</td>
-            <td>${p.equipe || '-'}</td>
-            
-            <td><span class="badge bg-secondary fs-6">${p.numero}</span></td>
-            <td>
-              <button class="btn-delete" onclick="deletarPiloto('${p.cpf}')">
-                <i class="bi bi-trash-fill"></i> Excluir
-              </button>
-            </td>
-          </tr>
-        `).join('');
+        tbody.innerHTML = pilotos.map(p => {
+          const fotoHtml = p.foto 
+            ? `<img src="${p.foto}" alt="${p.nome}" class="rounded-circle" width="40" height="40" style="object-fit: cover;">`
+            : `<i class="bi bi-person-circle fs-3 text-secondary"></i>`;
+
+          return `
+            <tr>
+              <td>${fotoHtml}</td>
+              <td><strong>${p.cpf}</strong></td>
+              <td>${p.nome}</td>
+              <td>${p.equipe || '-'}</td>
+              <td><span class="badge bg-secondary fs-6">${p.numero}</span></td>
+              <td>
+                <button class="btn-delete" onclick="deletarPiloto('${p.cpf}')">
+                  <i class="bi bi-trash-fill"></i> Excluir
+                </button>
+              </td>
+            </tr>
+          `;
+        }).join('');
       } catch (err) {
         console.error('Erro ao carregar pilotos:', err);
       }
@@ -137,21 +155,31 @@
     document.getElementById('formPiloto').addEventListener('submit', async (e) => {
       e.preventDefault();
       
+      const fotoInput = document.getElementById('foto');
+      let fotoBase64 = null;
+
+      if (fotoInput.files.length > 0) {
+        fotoBase64 = await converterParaBase64(fotoInput.files[0]);
+      }
+
       const piloto = {
         cpf: document.getElementById('cpf').value,
         nome: document.getElementById('nome').value,
         dataNasc: document.getElementById('dataNasc').value,
         equipe: document.getElementById('equipe').value,
-        idade: Number(document.getElementById('idade').value),
-        numero: Number(document.getElementById('numero').value)
+        idade: Number(document.getElementById('idade').value) || 0,
+        numero: Number(document.getElementById('numero').value),
+        foto: fotoBase64
       };
 
       try {
-        await fetch(API_URL, {
+        const res = await fetch(API_URL, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(piloto)
         });
+
+        if (!res.ok) throw new Error('Erro na requisição');
 
         e.target.reset();
         carregarPilotos();
