@@ -23,18 +23,27 @@
         <img src="LOGO1.png" alt="Kartódromo Mauá" height="50">
         <h4 class="m-0 fw-bold text-white">Gestão de Pilotos</h4>
       </div>
+      <div class="d-flex gap-2">
       <a href="index.html" class="btn btn-outline-light rounded-pill px-3">
         <i class="bi bi-house-door-fill me-1"></i> Início
       </a>
+         <a href="campeonatos.html" class="btn btn-outline-light rounded-pill px-3 fs-6">
+          <i class="bi bi-flag-fill me-1"></i> Campeonatos
+        </a>
+        <a href="funcionarios.html" class="btn btn-outline-light rounded-pill px-3 fs-6">
+          <i class="bi bi-person-vcard"></i> Funcionários
+        </a>
+        <button onclick="fazerLogout()">Sair</button>
     </div>
+  </div>
   </header>
 
   <!-- CONTEÚDO PRINCIPAL -->
   <main class="container mb-5">
-    <div class="row g-4">
+    <div class="row g-4 justify-content-center" >
       
       <!-- FORMULÁRIO -->
-      <div class="col-lg-4">
+      <div class="col-lg-8">
         <div class="container-card">
           <h2>Cadastrar Piloto</h2>
           <form id="formPiloto">
@@ -84,7 +93,7 @@
       </div>
 
       <!-- TABELA -->
-        <div class="row g-4">
+        <div class="row g-4 justify-content-center">
       <div class="col-lg-8">
         <div class="container-tabela">
           <div class="d-flex justify-content-between align-items-center mb-3">
