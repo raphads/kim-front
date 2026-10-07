@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+  <script>
+    // Se o usuário JÁ ESTIVER LOGADO, manda direto para a página interna
+    if (localStorage.getItem('usuarioLogado')) {
+      window.location.href = 'piloto.html';
+    }
+  </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Kartódromo Mauá - Login</title>
