@@ -1,3 +1,8 @@
+// No topo do seu kim.js
+const BASE_URL = "https://kartodromo-api.onrender.com";
+//const API_URL = "https://kartodromo-api.onrender.com"; 
+// (Se precisar voltar para o PC, basta trocar para: "http://localhost:3000")
+
 $(document).ready(function(){
     $('#cpf').inputmask('999.999.999-99'); // Máscara para CPF
     $('#email').inputmask('aaa@aaa.com'); // Máscara para email
