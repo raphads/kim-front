@@ -1,6 +1,6 @@
     // 🔒 GUARDA DE AUTENTICAÇÃO
     // Executa imediatamente antes de renderizar o restante da página
-    (function() {
+   /* (function() {
       const usuarioLogado = localStorage.getItem('usuarioLogado');
       if (!usuarioLogado) {
         alert('Acesso restrito! Por favor, faça login para continuar.');
@@ -12,4 +12,4 @@
     localStorage.removeItem('usuarioLogado');
     window.location.href = 'login';
   }
-}
+}*/
