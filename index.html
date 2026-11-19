@@ -7,6 +7,7 @@
     <link rel="icon" href="LOGO1.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <script src="kim.js"></script>
    <!-- Vinculo do PWA -->
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#1e3a5f">
@@ -278,6 +279,79 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Botão Flutuante e Janela do Assistente -->
+<button id="btnChatBot" class="btn btn-warning rounded-circle shadow position-fixed bottom-0 end-0 m-4 d-flex align-items-center justify-content-center" style="width: 58px; height: 58px; z-index: 1050; border: 2px solid #1e3a5f;" onclick="toggleChatBot()" title="Abrir assistente">
+  <i class="bi bi-chat-dots-fill fs-4 text-dark"></i>
+</button>
+
+<div id="janelaChatBot" class="card shadow-lg position-fixed bottom-0 end-0 m-4" style="width: 340px; max-width: calc(100vw - 2rem); display: none; z-index: 1050; border-radius: 14px; overflow: hidden; color: #333;">
+  <div class="card-header text-white d-flex justify-content-between align-items-center" style="background-color: #1e3a5f; border-bottom: 2px solid #f97316;">
+    <span class="fw-bold"><i class="bi bi-robot me-2 text-warning"></i>Assistente À la Kart</span>
+    <button type="button" class="btn-close btn-close-white" onclick="toggleChatBot()"></button>
+  </div>
+  <div id="mensagensBot" class="card-body bg-light" style="height: 250px; overflow-y: auto; font-size: 0.9rem;">
+    <div class="text-muted small mb-2">
+      Olá! Pergunte sobre <strong>campeonatos</strong>, <strong>pilotos</strong> ou <strong>histórico de pódios</strong>.
+    </div>
+  </div>
+  <form id="formChatBot" class="card-footer bg-white d-flex gap-2">
+    <input type="text" id="inputChatBot" class="form-control form-control-sm" placeholder="Digite sua pergunta..." required autocomplete="off">
+    <button type="submit" class="btn btn-sm text-white" style="background-color: #43ab3c;">
+      <i class="bi bi-send-fill"></i>
+    </button>
+  </form>
+</div>
+
+<script>
+  function toggleChatBot() {
+    const box = document.getElementById('janelaChatBot');
+    const isHidden = box.style.display === 'none' || box.style.display === '';
+    box.style.display = isHidden ? 'block' : 'none';
+    if (isHidden) {
+      setTimeout(() => document.getElementById('inputChatBot')?.focus(), 50);
+    }
+  }
+
+  function addMsgBot(texto, autor) {
+    const area = document.getElementById('mensagensBot');
+    const align = autor === 'user' ? 'text-end' : 'text-start';
+    const badge = autor === 'user' ? 'text-white' : 'bg-white text-dark border';
+    const styleBg = autor === 'user' ? 'background-color: #1e3a5f;' : '';
+    area.innerHTML += `
+      <div class="${align} mb-2">
+        <span class="d-inline-block p-2 rounded-3 shadow-sm ${badge}" style="max-width: 85%; white-space: pre-line; ${styleBg}">${texto}</span>
+      </div>
+    `;
+    area.scrollTop = area.scrollHeight;
+  }
+
+  document.getElementById('formChatBot').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const input = document.getElementById('inputChatBot');
+    const mensagem = input.value.trim();
+    if (!mensagem) return;
+
+    addMsgBot(mensagem, 'user');
+    input.value = '';
+    addMsgBot('Consultando...', 'bot');
+    const placeholderEl = document.getElementById('mensagensBot').lastElementChild;
+
+    try {
+      const res = await fetch(`${BASE_URL}/api/bot`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ mensagem })
+      });
+      const data = await res.json();
+      placeholderEl?.remove();
+      addMsgBot(data.resposta || 'Sem resposta no momento.', 'bot');
+    } catch {
+      placeholderEl?.remove();
+      addMsgBot('Não consegui falar com a API agora.', 'bot');
+    }
+  });
+</script>
 
 <!-- Registro do Service Worker -->
     <script>

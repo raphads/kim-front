@@ -2,6 +2,18 @@
 const BASE_URL = "https://kartodromo-api.onrender.com";
 //const API_URL = "https://kartodromo-api.onrender.com"; 
 // (Se precisar voltar para o PC, basta trocar para: "http://localhost:3000")
+// Acorda a API no Render silenciosamente assim que a página inicial carrega
+window.addEventListener('DOMContentLoaded', () => {
+  if (typeof BASE_URL !== 'undefined') {
+    fetch(`${BASE_URL}/api/pilotos`, { method: 'GET' })
+      .then(res => {
+        if (res.ok) console.log('🚀 API do Render acordada!');
+      })
+      .catch(() => {
+        console.log('⏳ Acordando servidor no Render...');
+      });
+  }
+});
 
 $(document).ready(function(){
     $('#cpf').inputmask('999.999.999-99'); // Máscara para CPF
