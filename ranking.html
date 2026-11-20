@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ranking de Pilotos - Kartódromo Internacional de Mauá</title>
+    <link rel="icon" href="LOGO1.png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <script src="kim.js"></script>
+    <style>
+        :root {
+            --blue-main: #458FD5;
+            --navy-dark: #1e3a5f;
+            --orange-hover: #f97316;
+            --green-btn: #43ab3c;
+            --red-accent: #EA412C;
+            --card-bg: #ffffff;
+        }
+
+        body {
+            background-color: var(--blue-main);
+            color: #ffffff;
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .navbar {
+            background-color: var(--navy-dark) !important;
+            border-bottom: 3px solid var(--orange-hover);
+        }
+
+        .nav-link {
+            color: #ffffff !important;
+            font-weight: 500;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: var(--orange-hover) !important;
+        }
+
+        .btn-custom-main {
+            background-color: var(--navy-dark);
+            color: #ffffff;
+            border: 1px solid #ffffff;
+            border-radius: 1rem;
+            padding: 8px 20px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-custom-main:hover {
+            background-color: var(--orange-hover);
+            color: #ffffff;
+        }
+
+        .btn-custom-green {
+            background-color: var(--green-btn);
+            color: #ffffff;
+            border: 1px solid #ffffff;
+            border-radius: 1rem;
+            padding: 8px 20px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-custom-green:hover {
+            background-color: var(--orange-hover);
+            color: #ffffff;
+        }
+
+        .card-container {
+            background-color: var(--card-bg);
+            color: #333333;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            padding: 28px;
+        }
+
+        .card-container h2, .card-container h3, .card-container h4, .card-container h5 {
+            color: var(--navy-dark);
+            font-weight: 700;
+        }
+
+        .podium-card {
+            background-color: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            border: 2px solid #e9ecef;
+            height: 100%;
+        }
+
+        .podium-1 {
+            border-color: #f59e0b;
+            background-color: #fffbeb;
+        }
+
+        .podium-2 {
+            border-color: #9ca3af;
+        }
+
+        .podium-3 {
+            border-color: #d97706;
+        }
+
+        footer {
+            background-color: var(--navy-dark);
+            color: #ffffff;
+            border-top: 3px solid var(--orange-hover);
+            margin-top: auto;
+        }
+
+        footer a {
+            color: var(--red-accent);
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="index.html">
+                <img src="LOGO1.png" alt="Kartódromo Mauá" height="50" class="me-2">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center gap-2">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Início</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="ranking.html">Ranking</a></li>
+                    <li class="nav-item ms-lg-2">
+                        <a href="login" class="btn btn-custom-green text-decoration-none">
+                            <i class="bi bi-box-arrow-in-right me-1"></i> Entrar / Login
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- CONTEÚDO PRINCIPAL -->
+    <main class="py-5">
+        <div class="container">
+            <div class="card-container mb-4">
+                <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+                    <div>
+                        <h2 class="mb-1">
+                            <i class="bi bi-trophy-fill text-warning me-2"></i>Ranking Oficial de Pilotos
+                        </h2>
+                        <p class="text-muted mb-0">
+                            Pontuação por pódio: <strong>1º lugar = 25 pts</strong> • <strong>2º lugar = 18 pts</strong> • <strong>3º lugar = 15 pts</strong>
+                        </p>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-custom-main" onclick="carregarRanking()">
+                            <i class="bi bi-arrow-clockwise me-1"></i> Atualizar Ranking
+                        </button>
+                        <a href="index.html" class="btn btn-custom-green text-decoration-none">
+                            <i class="bi bi-house-door me-1"></i> Voltar
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DESTAQUE TOP 3 -->
+            <div id="topTresContainer" class="row g-4 mb-4 d-none"></div>
+
+            <!-- TABELA GERAL -->
+            <div class="card-container">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead style="background-color: var(--navy-dark); color: #ffffff;">
+                            <tr>
+                                <th class="text-center" style="width: 80px;">Pos.</th>
+                                <th>Piloto</th>
+                                <th>Equipe</th>
+                                <th class="text-center">Kart</th>
+                                <th class="text-center" title="1º Lugar">🥇</th>
+                                <th class="text-center" title="2º Lugar">🥈</th>
+                                <th class="text-center" title="3º Lugar">🥉</th>
+                                <th class="text-end">Pontos</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabelaRankingBody">
+                            <tr>
+                                <td colspan="8" class="text-center text-muted py-4">
+                                    <div class="spinner-border spinner-border-sm me-2" role="status"></div>
+                                    Carregando classificação...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="py-4">
+        <div class="container">
+            <div class="row g-3 align-items-center">
+                <div class="col-md-6">
+                    <div class="d-flex align-items-center">
+                        <img src="LOGO1.png" alt="Logo" height="36" class="me-2">
+                        <span class="fw-bold">Kartódromo Internacional de Mauá</span>
+                    </div>
+                </div>
+                <div class="col-md-6 text-md-end small text-white-50">
+                    &copy; 2026 Kartódromo Internacional de Mauá. Todos os direitos reservados.
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function renderAvatar(piloto, tamanho = 38) {
+            if (piloto.foto) {
+                return `<img src="${piloto.foto}" alt="${piloto.nome}" class="rounded-circle border" style="width:${tamanho}px;height:${tamanho}px;object-fit:cover;">`;
+            }
+            return `<span class="d-inline-flex align-items-center justify-content-center rounded-circle bg-secondary text-white" style="width:${tamanho}px;height:${tamanho}px;"><i class="bi bi-person-fill"></i></span>`;
+        }
+
+        function renderTopTres(lista) {
+            const container = document.getElementById('topTresContainer');
+            if (!container) return;
+
+            if (!Array.isArray(lista) || lista.length === 0) {
+                container.classList.add('d-none');
+                container.innerHTML = '';
+                return;
+            }
+
+            const top3 = lista.slice(0, 3);
+            const medalhas = ['🏆 1º Lugar', '🥈 2º Lugar', '🥉 3º Lugar'];
+
+            container.classList.remove('d-none');
+            container.innerHTML = top3.map((p, idx) => `
+                <div class="col-md-4">
+                    <div class="podium-card podium-${idx + 1}">
+                        <div class="fw-bold mb-2" style="color: var(--navy-dark);">${medalhas[idx]}</div>
+                        <div class="d-flex justify-content-center mb-2">${renderAvatar(p, 64)}</div>
+                        <h5 class="mb-1">${p.nome}</h5>
+                        <div class="text-muted small mb-2">${p.equipe} • Kart #${p.numero}</div>
+                        <div class="fs-4 fw-bold" style="color: var(--navy-dark);">${p.pontos} pts</div>
+                        <div class="small text-muted mt-1">
+                            🥇 ${p.ouro} • 🥈 ${p.prata} • 🥉 ${p.bronze}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        async function carregarRanking() {
+            const tbody = document.getElementById('tabelaRankingBody');
+            if (!tbody) return;
+
+            tbody.innerHTML = `
+                <tr>
+                    <td colspan="8" class="text-center text-muted py-4">
+                        <div class="spinner-border spinner-border-sm me-2" role="status"></div>
+                        Carregando classificação...
+                    </td>
+                </tr>
+            `;
+
+            try {
+                const res = await fetch(`${BASE_URL}/api/ranking`);
+                if (!res.ok) throw new Error('Falha na resposta da API');
+
+                const lista = await res.json();
+                renderTopTres(lista);
+
+                if (!Array.isArray(lista) || lista.length === 0) {
+                    tbody.innerHTML = `
+                        <tr>
+                            <td colspan="8" class="text-center text-muted py-4">
+                                Nenhum pódio registrado no histórico ainda.
+                            </td>
+                        </tr>
+                    `;
+                    return;
+                }
+
+                tbody.innerHTML = lista.map((p, idx) => {
+                    const pos = idx + 1;
+                    const badgePos = pos === 1 ? '🏆 1º' : pos === 2 ? '🥈 2º' : pos === 3 ? '🥉 3º' : `${pos}º`;
+                    const rowClass = pos === 1 ? 'table-warning fw-semibold' : '';
+
+                    return `
+                        <tr class="${rowClass}">
+                            <td class="text-center fw-bold">${badgePos}</td>
+                            <td>
+                                <div class="d-flex align-items-center gap-2">
+                                    ${renderAvatar(p, 36)}
+                                    <span>${p.nome}</span>
+                                </div>
+                            </td>
+                            <td>${p.equipe}</td>
+                            <td class="text-center"><span class="badge bg-dark">#${p.numero}</span></td>
+                            <td class="text-center">${p.ouro}</td>
+                            <td class="text-center">${p.prata}</td>
+                            <td class="text-center">${p.bronze}</td>
+                            <td class="text-end fw-bold fs-5" style="color: var(--navy-dark);">${p.pontos} pts</td>
+                        </tr>
+                    `;
+                }).join('');
+            } catch (err) {
+                console.error('Erro ao carregar ranking:', err);
+                renderTopTres([]);
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="8" class="text-center text-danger py-4">
+                            Não foi possível carregar o ranking agora.
+                        </td>
+                    </tr>
+                `;
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', carregarRanking);
+    </script>
+</body>
+</html>
