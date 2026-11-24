@@ -10,7 +10,7 @@
       onclick="toggleMural()"
     >
       <i class="bi bi-chat-dots-fill text-warning"></i>
-      <span class="fw-semibold">Chat da Pista</span>
+      <span class="fw-semibold">Chat da Galera</span>
     </button>
 
     <!-- JANELA DO CHAT COMUNITÁRIO -->
@@ -21,7 +21,7 @@
     >
       <div class="card-header d-flex justify-content-between align-items-center text-white py-2 px-3" style="background-color: #1e3a5f;">
         <div class="fw-bold small">
-          <i class="bi bi-shield-lock-fill text-warning me-1"></i> Chat da Galera (Restrito)
+          <i class="bi bi-shield-lock-fill text-warning me-1"></i> Chat da Galera
         </div>
         <div class="d-flex gap-2">
           <button class="btn btn-sm text-white p-0" title="Atualizar" onclick="carregarMural()">
