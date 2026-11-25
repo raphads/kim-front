@@ -54,3 +54,40 @@ function toggleMenu() {
         document.getElementById("sidebar").classList.toggle("active");
 }
 }
+
+function aplicarArquivosTema(tema) {
+  const linkClassico = document.getElementById('cssClassico');
+  const linkModerno = document.getElementById('cssModerno');
+
+  const usarClassico = tema === 'classico';
+
+  if (linkClassico) linkClassico.disabled = !usarClassico;
+  if (linkModerno) linkModerno.disabled = usarClassico;
+}
+
+// Aplica imediatamente ao carregar o <head> (padrão: moderno)
+(function initTema() {
+  const temaSalvo = localStorage.getItem('alakart_tema') || 'moderno';
+  aplicarArquivosTema(temaSalvo);
+})();
+
+function alternarTema() {
+  const atual = localStorage.getItem('alakart_tema') || 'moderno';
+  const novoTema = atual === 'classico' ? 'moderno' : 'classico';
+
+  localStorage.setItem('alakart_tema', novoTema);
+  aplicarArquivosTema(novoTema);
+  atualizarTextoBotaoTema();
+}
+
+function atualizarTextoBotaoTema() {
+  const btn = document.getElementById('btnAlternarTema');
+  if (!btn) return;
+
+  const isClassico = (localStorage.getItem('alakart_tema') || 'moderno') === 'classico';
+  btn.innerHTML = isClassico
+    ? '<i class="bi bi-stars me-1"></i> Modo Moderno'
+    : '<i class="bi bi-clock-history me-1"></i> Modo Clássico';
+}
+
+window.addEventListener('DOMContentLoaded', atualizarTextoBotaoTema);

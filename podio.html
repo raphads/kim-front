@@ -9,7 +9,8 @@
   <link rel="icon" href="LOGO1.png">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-  <link rel="stylesheet" href="style.css">
+  <link id="cssClassico" rel="stylesheet" href="style.css">
+  <link id="cssModerno" rel="stylesheet" href="moderno.css">
 <script src="kim.js">  </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
@@ -21,21 +22,24 @@
     <div class="container d-flex justify-content-between align-items-center">
       <div class="d-flex align-items-center gap-3">
         <img src="LOGO1.png" alt="Kartódromo Mauá" height="50">
-        <h4 class="m-0 fw-bold text-white">Finalizar Campeonato &amp; Pódio</h4>
+        <h4 class="m-0 fw-bold text-white">Finalizar Campeonato</h4>
       </div>
       <div class="d-flex gap-2">
-          <a href="funcionarios" class="btn btn-outline-light rounded-pill px-3 fs-6">
+            <a href="ranking" class="btn btn-outline-light rounded-pill px-3">
+          <i class="bi bi-bar-chart-line-fill"></i> Ranking
+        </a>
+          <a href="funcionarios" class="btn btn-outline-light rounded-pill px-3">
           <i class="bi bi-person-vcard"></i> Funcionários
         </a>
-        <a href="controle_provas" class="btn btn-outline-light rounded-pill px-3 fs-6">
+        <a href="controle_provas" class="btn btn-outline-light rounded-pill px-3">
           <i class="bi bi-usb-plug-fill me-1"></i> Provas
         </a>
-        <a href="campeonatos" class="btn btn-outline-light rounded-pill px-3 fs-6">
+        <a href="campeonatos" class="btn btn-outline-light rounded-pill px-3">
           <i class="bi bi-trophy-fill me-1"></i> Campeonatos
         </a>
-        <a href="piloto" class="btn btn-outline-light rounded-pill px-3 fs-6">
+       <!-- <a href="piloto" class="btn btn-outline-light rounded-pill px-3">
           <i class="bi bi-person-badge-fill me-1"></i> Pilotos
-        </a>
+        </a>-->
       </div>
     </div>
   </header>

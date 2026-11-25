@@ -164,3 +164,119 @@ tr:hover {
   border-radius: 6px;
   margin-bottom: 6px;
 }
+
+/**/
+   :root {
+            --blue-main: #458FD5;
+            --navy-dark: #1e3a5f;
+            --orange-hover: #f97316;
+            --green-btn: #43ab3c;
+            --red-accent: #EA412C;
+            --card-bg: #ffffff;
+        }
+
+        html {
+            user-select: none;
+        }
+
+        body {
+            background-color: var(--blue-main);
+            color: #ffffff;
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            margin: 0;
+        }
+
+        /* Navbar */
+        .navbar {
+            background-color: var(--navy-dark) !important;
+            border-bottom: 3px solid var(--orange-hover);
+        }
+
+        .nav-link {
+            color: #ffffff !important;
+            font-weight: 500;
+        }
+
+        .nav-link:hover {
+            color: var(--orange-hover) !important;
+        }
+
+        /* Botões customizados padrão da sua identidade */
+        .btn-custom-main {
+            background-color: var(--navy-dark);
+            color: #ffffff;
+            border: 1px solid #ffffff;
+            border-radius: 1rem;
+            padding: 10px 24px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-custom-main:hover {
+            background-color: var(--orange-hover);
+            color: #ffffff;
+        }
+
+        .btn-custom-green {
+            background-color: var(--green-btn);
+            color: #ffffff;
+            border: 1px solid #ffffff;
+            border-radius: 1rem;
+            padding: 10px 24px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-custom-green:hover {
+            background-color: var(--orange-hover);
+            color: #ffffff;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            padding: 60px 0;
+        }
+
+        /* Cards em container branco (como na sua tabela) */
+        .card-container {
+            background-color: var(--card-bg);
+            color: #333333;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            padding: 30px;
+            height: 100%;
+        }
+
+        .card-container h3, .card-container h4, .card-container h5 {
+            color: var(--navy-dark);
+            font-weight: 700;
+        }
+
+        .icon-box {
+            font-size: 2.2rem;
+            color: var(--blue-main);
+        }
+
+        /* Destaques / Estatísticas */
+        .stat-box {
+            background-color: #f8f9fa;
+            border-left: 5px solid var(--green-btn);
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--navy-dark);
+            color: #ffffff;
+            border-top: 3px solid var(--orange-hover);
+        }
+
+        footer a {
+            color: var(--red-accent);
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
