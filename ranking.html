@@ -131,28 +131,27 @@
 </head>
 <body>
 
-    <!-- NAVBAR -->
-    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
-        <div class="container">
-            <a class="navbar-brand d-flex align-items-center" href="index.html">
-                <img src="LOGO1.png" alt="Kartódromo Mauá" height="50" class="me-2">
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto align-items-center gap-2">
-                    <li class="nav-item"><a class="nav-link" href="index.html">Início</a></li>
-                    <li class="nav-item"><a class="nav-link active" href="ranking.html">Ranking</a></li>
-                    <li class="nav-item ms-lg-2">
-                        <a href="login" class="btn btn-custom-green text-decoration-none">
-                            <i class="bi bi-box-arrow-in-right me-1"></i> Entrar / Login
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+   <!-- CABEÇALHO -->
+    <header class="py-3 mb-4" style="background-color: var(--navy-dark); border-bottom: 3px solid var(--orange-hover);">
+  <!--<header class="py-3 mb-4" style="background-color: #0b1d3a; border-bottom: 3px solid #ff6b00;">-->
+    <div class="container d-flex justify-content-between align-items-center">
+      <div class="d-flex align-items-center gap-3">
+        <img src="LOGO1.png" alt="Kartódromo Mauá" height="50">
+        <h4 class="m-0 fw-bold text-white">Finalizar Campeonato</h4>
+      </div>
+      <div class="d-flex gap-2">
+          <a href="funcionarios" class="btn btn-outline-light rounded-pill px-3">
+          <i class="bi bi-person-vcard"></i> Funcionários
+        </a>
+        <a href="controle_provas" class="btn btn-outline-light rounded-pill px-3">
+          <i class="bi bi-usb-plug-fill me-1"></i> Provas
+        </a>
+        <a href="campeonatos" class="btn btn-outline-light rounded-pill px-3">
+          <i class="bi bi-trophy-fill me-1"></i> Campeonatos
+        </a>
+      </div>
+    </div>
+  </header>
 
     <!-- CONTEÚDO PRINCIPAL -->
     <main class="py-5">
